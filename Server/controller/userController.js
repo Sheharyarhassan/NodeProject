@@ -1,5 +1,4 @@
-const {validateLogin} = require('../validators/userValidation');
-const {validateSignup} = require('../validators/userValidation');
+const {validateUserUpdate,validateLogin,validateSignup,validateUsertype} = require('../validators/userValidation');
 const {Signup,userType} = require('../models/userModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -8,6 +7,79 @@ require('dotenv').config();
 const generateToken = (userId, expiresIn) => {
     return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn });
 };
+const addUserType = async (req, res) => {
+    const {error} = validateUsertype(req.body);
+    if(error) return res.status(400).send("Error:" + error);
+    try{
+        const newUserType = new userType({
+            name: req.body.name
+        })
+        await newUserType.save();
+        res.status(201).send("User Type Added Successfully");
+    }
+    catch(err){
+       res.status(500).send("Error:" + err);
+    }
+}
+const getAllUserTypes = async (req, res) => {
+    try{
+        const userTypes = await userType.find()
+        return res.status(200).send(userTypes);
+    }
+    catch(err){
+        res.status(500).send("Error:" + err);
+    }
+}
+const getAllActiveTypes = async (req, res) => {
+    try{
+        const userTypes = await userType.find({validFlag: true})
+        return res.status(200).send(userTypes);
+    }
+    catch(err){
+        res.status(500).send("Error:" + err);
+    }
+}
+const updateUserType = async (req, res) => {
+    if(!req.params.id) return res.status(400).send("Error: id required");
+    const {error} = validateUsertype(req.body);
+    if(error) return res.status(400).send("Error:" + error);
+    try{
+        const updatedUserType = await userType.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true,runValidators:true})
+        if(!updatedUserType){
+            return res.status(404).send("Error: User Type Not Found");
+        }
+        res.status(200).send("User Type Updated Successfully");
+    }
+    catch(err){
+        res.status(500).send("Error:" + err);
+    }
+}
+const ActivateUserType = async (req, res) => {
+    if(!req.params.id) return res.status(400).send("Error: id required");
+    try {
+        const userTypeStatus = await userType.findByIdAndUpdate(req.params.id,{validFlag: true})
+        if(!userTypeStatus){
+            res.status(404).send("Error: User Type Not Found");
+        }
+        res.status(200).send("User Type Activated");
+    }
+    catch(err){
+        res.status(500).send("Error:" + err);
+    }
+}
+const DeactivateUserType = async (req, res) => {
+    if(!req.params.id) return res.status(400).send("Error: id required");
+    try {
+        const userTypeStatus = await userType.findByIdAndUpdate(req.params.id,{validFlag: false})
+        if(!userTypeStatus){
+            res.status(404).send("Error: User Type Not Found");
+        }
+        res.status(200).send("User Type Deactivated");
+    }
+    catch(err){
+        res.status(500).send("Error:" + err);
+    }
+}
 const userLogin = async (req,res) => {
     const {error} = validateLogin(req.body);
     if (error) return res.status(400).send('Error: ' + error) 
@@ -39,7 +111,8 @@ const userSignup = async(req,res) =>{
             name: req.body.name,
             userName: req.body.userName,
             email: req.body.email,
-            password: hashedPassword
+            password: hashedPassword,
+            userType:req.body.userType,
         })
         await newUser.save();
         res.status(201).send('User Created Successfully');
@@ -49,9 +122,25 @@ const userSignup = async(req,res) =>{
         res.status(500).send("Error: " + err)
     }
 }
+const userUpdate = async(req,res) =>{
+    if(!req.params.id) return res.status(400).send("Error: id required");
+    const {error} = validateUserUpdate(req.body);
+    if(error) return res.status(400).send('Error: ' + error)
+    try{
+        const newUser = await Signup.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true,runValidators:true})
+        if(!newUser){
+            return res.status(404).send("Error: User Type Not Found");
+        }
+        res.status(200).send('User Updated Successfully');
+    }
+
+    catch(err){
+        res.status(500).send("Error: " + err)
+    }
+}
 const getAllUsers = async(req,res) =>{
     try{
-        const users = await Signup.find();
+        const users = await Signup.find().populate('userType', 'name');
         res.status(201).send(users);
     }
     catch(err){
@@ -59,4 +148,4 @@ const getAllUsers = async(req,res) =>{
     }
 }
 
-module.exports = {userLogin,userSignup,getAllUsers}
+module.exports = {userUpdate,userLogin,userSignup,getAllUsers,addUserType,updateUserType,getAllUserTypes,getAllActiveTypes,ActivateUserType,DeactivateUserType}

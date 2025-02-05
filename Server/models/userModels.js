@@ -10,7 +10,7 @@ const signupSchema = new mongoose.Schema({
     name:{type:'String',required:true},
     userName:{type:'String',required:true,unique:true},
     password:{type:'String',required:true},
-    // userType:{type:mongoose.Schema.Types.ObjectId,ref:"UserType",required:true},
+    userType:{type:mongoose.Schema.Types.ObjectId,ref:"UserType",required:true},
     email:{type:'String',required:true,unique:true},
     validFlag: { type: Boolean, default: true },
     lastActivity: { type: Date, default: Date.now }  // Stores the last activity timestamp

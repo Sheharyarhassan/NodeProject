@@ -4,6 +4,7 @@ const userRoutes = require('./Routes/userRoutes');
 const bookRoutes = require('./Routes/bookRoutes');
 const genreRoutes = require('./Routes/genreRoutes');
 const app = express();
+require('dotenv').config();
 
 app.use(express.json())
 
@@ -15,6 +16,6 @@ app.use('/api',bookRoutes);
 
 app.use('/api',genreRoutes);
 
-const port = process.env.port || 8080
+const port = process.env.PORT || 8080
 app.listen(port,()=>{console.log(`Listening on Port ${port}`)})
 

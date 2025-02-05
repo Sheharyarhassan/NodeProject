@@ -1,8 +1,13 @@
 const {validateLogin} = require('../validators/userValidation');
 const {validateSignup} = require('../validators/userValidation');
-const {Signup} = require('../models/userModels');
+const {Signup,userType} = require('../models/userModels');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
+const generateToken = (userId, expiresIn) => {
+    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn });
+};
 const userLogin = async (req,res) => {
     const {error} = validateLogin(req.body);
     if (error) return res.status(400).send('Error: ' + error) 
@@ -15,7 +20,10 @@ const userLogin = async (req,res) => {
         if(!passwordMatched) {
             return res.status(401).send("Error: Password is not Correct");
         }
-        res.status(200).send("User Logged in")
+        const accessToken = generateToken(checkUser._id, '1h');
+        checkUser.lastActive = new Date();
+        await checkUser.save();
+        res.json({ accessToken});
     }
     catch(err){
         res.status(500).send('Error: ' + err)
@@ -41,5 +49,14 @@ const userSignup = async(req,res) =>{
         res.status(500).send("Error: " + err)
     }
 }
+const getAllUsers = async(req,res) =>{
+    try{
+        const users = await Signup.find();
+        res.status(201).send(users);
+    }
+    catch(err){
+        res.status(500).send("Error: " + err)
+    }
+}
 
-module.exports = {userLogin,userSignup}
+module.exports = {userLogin,userSignup,getAllUsers}

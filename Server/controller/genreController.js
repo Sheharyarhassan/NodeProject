@@ -1,5 +1,5 @@
 const {genreValidation} = require('../validators/genreValidation');
-const {Genre} = require("../models/booksModels");
+const {Genre, Book} = require("../models/booksModels");
 
 const addGenre = async(req, res) => {
    const {error} = genreValidation(req.body);
@@ -11,7 +11,7 @@ const addGenre = async(req, res) => {
          validFlag: true,
       })
       await newGenre.save()
-      res.status(201).send("Book Added Successfully")
+      res.status(201).send("Genre Added Successfully")
    }
    catch(err) {
       res.status(500).send('Error Adding Genre'+ err);
@@ -27,8 +27,17 @@ const getGenreById = async(req, res) => {
       res.status(500).send("Error:", err);
    }
 }
-const getAllGenres = async(req, res) => {
+const getActiveGenres = async(req, res) => {
   try {
+      const genres = await Genre.find({validFlag: true});
+      res.status(200).send(genres)
+   }
+   catch(err) {
+      res.status(500).send("Error:", err);
+   }
+}
+const getAllGenres = async(req, res) => {
+   try {
       const genres = await Genre.find();
       res.status(200).send(genres)
    }
@@ -36,4 +45,49 @@ const getAllGenres = async(req, res) => {
       res.status(500).send("Error:", err);
    }
 }
-module.exports = {addGenre,getGenreById,getAllGenres}
+const updateGenre = async(req, res) => {
+   if(req.params.id) return res.status(404).send("Error: Genre not found");
+   try {
+      const {error} = genreValidation(req.body);
+      if(error) return res.status(400).send("Error:", error);
+      const updatedGenre = await Genre.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true,runValidators:true})
+      if(!updatedGenre) {
+         return res.status(404).send("Genre Not Found");
+      }
+      res.status(200).send("Genre Updated Successfully")
+   }
+   catch(err) {
+      res.status(500).send('Error Adding Genre'+ err);
+   }
+}
+const ActivateGenre = async(req,res) =>{
+   if(!req.params.id){
+      return res.status(400).send('Id not found');
+   }
+   try{
+      const updatedGenre = await Genre.findByIdAndUpdate(req.params.id,{validFlag:true} , { new: true })
+      if (!updatedGenre) {
+         return res.status(404).send('Genre not found');
+      }
+      res.status(200).send("Genre Activated");
+   }
+   catch (err) {
+      res.status(500).send('Error updating Genre'+ err);
+   }
+}
+const DeactivateGenre = async(req,res) =>{
+   if(!req.params.id){
+      return res.status(400).send('Id not found');
+   }
+   try{
+      const updatedGenre = await Genre.findByIdAndUpdate(req.params.id,{validFlag:false} , { new: true })
+      if (!updatedGenre) {
+         return res.status(404).send('Genre not found');
+      }
+      res.status(200).send("Genre Deactivated");
+   }
+   catch (err) {
+      res.status(500).send('Error updating Genre'+ err);
+   }
+}
+module.exports = {addGenre,getGenreById,getAllGenres,updateGenre,ActivateGenre,DeactivateGenre,getActiveGenres}

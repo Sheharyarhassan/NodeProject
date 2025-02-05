@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const {Genre} = require('../models/booksModels');
 
 const bookValidation = (book) =>{
     const schema = new Joi.object({

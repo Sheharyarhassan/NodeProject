@@ -25,7 +25,7 @@ const getBookById = async(req,res) =>{
        return res.status(400).send('Enter an id')
     }
     try{
-        const bookById = await Book.findOne({_id:req.params.id})
+        const bookById = await Book.findOne({_id:req.params.id}).populate('genre',"name");
         if(!bookById){
             return res.status(404).send('Book not Found');
         }
@@ -37,7 +37,16 @@ const getBookById = async(req,res) =>{
 }
 const getAllBooks = async(req,res) =>{
     try{
-        const books = await Book.find();
+        const books = await Book.find().populate('genre',"name");
+        res.status(200).send(books)
+    }
+    catch(err){
+        res.status(500).send('Error' + err);
+    }
+}
+const getActiveBooks = async(req,res) =>{
+    try{
+        const books = await Book.find({validFlag: true}).populate('genre',"name");
         res.status(200).send(books)
     }
     catch(err){
@@ -50,9 +59,12 @@ const updateBook = async(req,res) =>{
     }
     const {error} = bookValidation(req.body);
     if(error) return res.status(400).send("Error: " + error);
-    const bookData = req.body; 
     try{
-        const updatedBook = await Book.findByIdAndUpdate(req.params.id, bookData, { new: true })
+        const updatedBook = await Book.findByIdAndUpdate(
+           req.params.id,
+           req.body,
+           { new: true, runValidators: true }
+        )
         if (!updatedBook) {
             return res.status(404).send('Book not found');
         }
@@ -93,4 +105,4 @@ const DeactivateBook = async(req,res) =>{
     }
 }
 
-module.exports = {getAllBooks,getBookById,addBook,updateBook,ActivateBook,DeactivateBook}
+module.exports = {getAllBooks,getBookById,addBook,updateBook,ActivateBook,DeactivateBook,getActiveBooks}

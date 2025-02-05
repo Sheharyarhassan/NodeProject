@@ -1,0 +1,19 @@
+const Joi = require('joi');
+
+const bookValidation = (book) =>{
+    const schema = new Joi.object({
+        title:Joi.string().min(6).max(50).required(),
+        author: Joi.string().min(6).max(50).required(),
+        publishedYear: Joi.number().min(1000),
+        genre: Joi.string().custom(async (value, helpers) => {
+            const genreExists = await Genre.exists({ _id: value });
+            if (!genreExists) {
+                return helpers.message('Invalid genre. Genre not found');
+            }
+            return value;
+        }).required(),
+        validFlag: Joi.boolean()
+    })
+    return schema.validate(book);
+}
+module.exports = {bookValidation}

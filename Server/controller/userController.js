@@ -1,4 +1,4 @@
-const {validateUserUpdate,validateLogin,validateSignup,validateUsertype} = require('../validators/userValidation');
+const {validateUserUpdate,validateLogin,validateSignup,validateUsertype,validatePassword} = require('../validators/userValidation');
 const {Signup,userType} = require('../models/userModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -138,6 +138,30 @@ const userUpdate = async(req,res) =>{
         res.status(500).send("Error: " + err)
     }
 }
+const changePassword = async(req,res)=>{
+    const {error} = validatePassword(req.body);
+    if(error) return res.status(400).send('Error: ' + error)
+    try {
+        const user = await Signup.findOne({userName: req.body.userName})
+        if(!user){
+            return res.status(404).send("Error: User Not Found");
+        }
+        const passwordMatch = await bcrypt.compare(req.body.oldPassword,user.password);
+        if(!passwordMatch){
+            return res.status(401).send("Error: Old Password is not Correct");
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedpassword = await bcrypt.hash(req.body.newPassword, salt);
+        const updatedPassword = await Signup.findOneAndUpdate({userName:req.body.userName},{password:hashedpassword},{new:true})
+        if(!updatedPassword){
+            return res.status(400).send("Error: Password not updated");
+        }
+        res.status(200).send('Password Updated Successfully');
+    }
+    catch (err){
+        res.status(500).send("Error: " + err)
+    }
+}
 const getAllUsers = async(req,res) =>{
     try{
         const users = await Signup.find().populate('userType', 'name');
@@ -148,4 +172,4 @@ const getAllUsers = async(req,res) =>{
     }
 }
 
-module.exports = {userUpdate,userLogin,userSignup,getAllUsers,addUserType,updateUserType,getAllUserTypes,getAllActiveTypes,ActivateUserType,DeactivateUserType}
+module.exports = {changePassword,userUpdate,userLogin,userSignup,getAllUsers,addUserType,updateUserType,getAllUserTypes,getAllActiveTypes,ActivateUserType,DeactivateUserType}

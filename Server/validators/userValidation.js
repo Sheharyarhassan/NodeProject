@@ -32,4 +32,12 @@ const validateUsertype = (usertype) =>{
     })
     return schema.validate(usertype);
 }
-module.exports = {validateSignup,validateLogin,validateUsertype,validateUserUpdate}
+const validatePassword = (details) => {
+    const schema = Joi.object({
+        userName: Joi.string().min(3).required(),
+        oldPassword: Joi.string().min(6).required(),
+        newPassword: Joi.string().min(6).required(),
+    })
+    return schema.validate(details)
+}
+module.exports = {validateSignup,validateLogin,validateUsertype,validateUserUpdate,validatePassword}

@@ -13,6 +13,7 @@ const bookValidation = (book) =>{
             }
             return value;
         }).required(),
+        image:Joi.string(),
         validFlag: Joi.boolean()
     })
     return schema.validate(book);

@@ -1,8 +1,10 @@
 const {bookValidation} = require('../validators/bookValidation');
 const {Book} = require('../models/booksModels');
+const fs = require('fs');
+const path = require('path');
 
 const addBook = async (req,res) => {
-    const {error} = bookValidation(req.body);
+    const {error} = bookValidation(req.body, req.file);
     if (error) return res.status(400).send('Error' + error);
 
     try{
@@ -11,6 +13,7 @@ const addBook = async (req,res) => {
             author:req.body.author,
             publishedYear:req.body.publishedYear,
             genre: req.body.genre,
+            image:`/uploads/${req.file.filename}`,
             validFlag: true
         });
         await BookObject.save();
@@ -57,16 +60,30 @@ const updateBook = async(req,res) =>{
     if(!req.params.id){
         return res.status(400).send('Id not found');
     }
+    var imagepath =null;
     const {error} = bookValidation(req.body);
     if(error) return res.status(400).send("Error: " + error);
     try{
+        const book = await Book.findById(req.params.id);
+        if(!book){
+            return res.status(404).send('Book not found');
+        }
+        if(req.file){
+            if(book.image){
+                const oldImagePath = path.join(__dirname, "../uploads", book.image);
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath); // Delete old image
+                }
+            }
+            imagepath = `/uploads/${req.file.filename}`
+        }
         const updatedBook = await Book.findByIdAndUpdate(
            req.params.id,
-           req.body,
+           { $set: req.body, image: imagepath },
            { new: true, runValidators: true }
-        )
-        if (!updatedBook) {
-            return res.status(404).send('Book not found');
+        );
+        if(!updatedBook){
+            return res.status(404).send('Book not Found');
         }
         res.status(200).send("Book Updated SuccessFully");
     }

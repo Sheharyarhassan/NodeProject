@@ -11,9 +11,12 @@ const {
    getAllUserTypes,
    getAllActiveTypes,
    ActivateUserType,
-   DeactivateUserType
+   DeactivateUserType,
+   adminLogin,
+   adminSignup,
+   logoutUser
 } = require("../controller/userController");
-const authMiddleware = require("../middleware/authMiddleware");
+const {authMiddleware,authMiddlewareAdmin} = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -22,6 +25,32 @@ const authMiddleware = require("../middleware/authMiddleware");
  *   description: API for user management
  */
 
+/**
+ * @swagger
+ * /adminLogin:
+ *   post:
+ *     summary: Admin login
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userName:
+ *                 type: string
+ *                 example: "username"
+ *               password:
+ *                 type: string
+ *                 example: "password123"
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Invalid credentials
+ */
+router.post("/adminLogin", adminLogin);
 /**
  * @swagger
  * /login:
@@ -76,6 +105,51 @@ router.post("/login", userLogin);
  *         description: User registered successfully
  */
 router.post("/Signup", userSignup);
+/**
+ * @swagger
+ * /adminSignup:
+ *   post:
+ *     summary: Admin signup
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "John Doe"
+ *               email:
+ *                 type: string
+ *                 example: "user@example.com"
+ *               password:
+ *                 type: string
+ *                 example: "password123"
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ */
+router.post("/adminSignup",authMiddlewareAdmin, adminSignup);
+/**
+ * @swagger
+ * /logout:
+ *   post:
+ *     summary: Logout user
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully logged out
+ *       401:
+ *         description: Unauthorized - No valid token provided
+ */
+
+router.post("/logout",authMiddlewareAdmin, logoutUser);
 
 /**
  * @swagger

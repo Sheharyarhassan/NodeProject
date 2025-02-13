@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const generateToken = (userId, expiresIn) => {
-    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn });
+const generateToken = (userId,secret, expiresIn) => {
+    return jwt.sign({ userId }, secret, { expiresIn });
 };
 const addUserType = async (req, res) => {
     const {error} = validateUsertype(req.body);
@@ -84,7 +84,7 @@ const userLogin = async (req,res) => {
     const {error} = validateLogin(req.body);
     if (error) return res.status(400).send('Error: ' + error) 
     try{
-        const checkUser = await Signup.findOne({userName:req.body.userName});
+        const checkUser = await Signup.findOne({userName:req.body.userName}).populate('userType', 'name');
         if(!checkUser){
             return res.status(404).send("Error: User not found")
         }
@@ -92,18 +92,84 @@ const userLogin = async (req,res) => {
         if(!passwordMatched) {
             return res.status(401).send("Error: Password is not Correct");
         }
-        const accessToken = generateToken(checkUser._id, '1h');
+        const userTypeName = checkUser.userType.name;
+        const accessToken = generateToken(checkUser._id,process.env.JWT_SECRET, '1h');
+        const refreshToken = generateToken(checkUser._id,process.env.JWT_REFRESH_SECRET,"7d");
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
         checkUser.lastActive = new Date();
         await checkUser.save();
-        res.json({ accessToken});
+        res.json({ accessToken, userTypeName});
     }
     catch(err){
         res.status(500).send('Error: ' + err)
     }
 }
+const adminLogin = async (req,res) => {
+    const {error} = validateLogin(req.body);
+    if (error) return res.status(400).send('Error: ' + error)
+    try{
+        const checkUser = await Signup.findOne({userName:req.body.userName}).populate('userType', 'name');
+        if(!checkUser){
+            return res.status(404).send("Error: User not found")
+        }
+        if((checkUser.userType.name).toLowerCase() !== "admin"){
+            return res.status(403).send("Error: You do not have permission to access this resource");
+        }
+        const passwordMatched = await bcrypt.compare(req.body.password,checkUser.password)
+        if(!passwordMatched) {
+            return res.status(401).send("Error: Password is not Correct");
+        }
+        const userTypeName = checkUser.userType.name;
+        const accessToken = generateToken(checkUser._id,process.env.JWT_SECRET, '1h');
+        const refreshToken = generateToken(checkUser._id,process.env.JWT_REFRESH_SECRET,"7d");
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
+        checkUser.lastActive = new Date();
+        await checkUser.save();
+        res.json({ accessToken, userTypeName});
+    }
+    catch(err){
+        res.status(500).send('Error: ' + err)
+    }
+}
+const logoutUser = (req, res) => {
+    res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.json({ message: "Logged out successfully" });
+};
+
 const userSignup = async(req,res) =>{
     const {error} = validateSignup(req.body);
     if(error) return res.status(400).send('Error: ' + error)
+    try{
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        const newUser = new Signup({
+            name: req.body.name,
+            userName: req.body.userName,
+            email: req.body.email,
+            password: hashedPassword,
+            userType:req.body.userType,
+        })
+        await newUser.save();
+        res.status(201).send('User Created Successfully');
+    }
+
+    catch(err){
+        res.status(500).send("Error: " + err)
+    }
+}
+const adminSignup = async(req,res) =>{
+    const {error} = validateSignup(req.body);
+    if(error) return res.status(400).send('Error: ' + error);
     try{
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -165,11 +231,12 @@ const changePassword = async(req,res)=>{
 const getAllUsers = async(req,res) =>{
     try{
         const users = await Signup.find().populate('userType', 'name');
-        res.status(201).send(users);
+        const userNames = users.map(user => ({ name: user.name, userName: user.userName,email:user.email }));
+        res.status(201).send(userNames);
     }
     catch(err){
         res.status(500).send("Error: " + err)
     }
 }
 
-module.exports = {changePassword,userUpdate,userLogin,userSignup,getAllUsers,addUserType,updateUserType,getAllUserTypes,getAllActiveTypes,ActivateUserType,DeactivateUserType}
+module.exports = {logoutUser,adminSignup,adminLogin,changePassword,userUpdate,userLogin,userSignup,getAllUsers,addUserType,updateUserType,getAllUserTypes,getAllActiveTypes,ActivateUserType,DeactivateUserType}

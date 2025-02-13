@@ -9,7 +9,7 @@ const {
    getActiveBooks,
 } = require("../controller/bookController");
 const router = express.Router();
-const authMiddleware = require("../middleware/authMiddleware");
+const {authMiddleware} = require("../middleware/authMiddleware");
 const upload = require("../config/multerConfig");
 
 /**

@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89ee4ccd-2e75-49ff-b1b3-a91be8276254" name="Changes" comment="" />
+    <list default="true" id="89ee4ccd-2e75-49ff-b1b3-a91be8276254" name="Changes" comment="Multer and Swagger config">
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Routes/ProtectedRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Routes/ProtectedRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Routes/Routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Routes/Routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Routes/bookRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/bookRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Routes/genreRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/genreRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/userRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/authMiddleware.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,9 +32,24 @@
       </list>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Sheharyarhassan"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Sheharyarhassan/NodeProject.git",
+    "accountId": "b4d33e2a-c25c-454f-b500-97b4e0d245f6"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2sZlduttBH2xpPs220qmPM848pS" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,11 +58,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
@@ -53,10 +85,33 @@
       <option name="presentableId" value="Default" />
       <updated>1738671069110</updated>
       <workItem from="1738671070491" duration="7955000" />
+      <workItem from="1738753306828" duration="51662000" />
     </task>
+    <task id="LOCAL-00001" summary="File Handling and multer config">
+      <option name="closed" value="true" />
+      <created>1739185820969</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739185820969</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Multer and Swagger config">
+      <option name="closed" value="true" />
+      <created>1739185871498</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739185871498</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="File Handling" />
+    <MESSAGE value="Multer and Swagger config" />
+    <option name="LAST_COMMIT_MESSAGE" value="Multer and Swagger config" />
   </component>
 </project>

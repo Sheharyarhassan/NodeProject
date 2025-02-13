@@ -9,7 +9,7 @@ const {
    getActiveGenres,
 } = require("../controller/genreController");
 
-const authMiddleware = require("../middleware/authMiddleware");
+const {authMiddleware} = require("../middleware/authMiddleware");
 const router = express.Router();
 
 /**

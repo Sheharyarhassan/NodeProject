@@ -14,7 +14,8 @@ const {
    DeactivateUserType,
    adminLogin,
    adminSignup,
-   logoutUser
+   logoutUser,
+   logoutAdmin
 } = require("../controller/userController");
 const {authMiddleware,authMiddlewareAdmin} = require("../middleware/authMiddleware");
 
@@ -149,7 +150,23 @@ router.post("/adminSignup",authMiddlewareAdmin, adminSignup);
  *         description: Unauthorized - No valid token provided
  */
 
-router.post("/logout",authMiddlewareAdmin, logoutUser);
+router.post("/logout",authMiddleware, logoutUser);
+/**
+ * @swagger
+ * /logout:
+ *   post:
+ *     summary: Logout user
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully logged out
+ *       401:
+ *         description: Unauthorized - No valid token provided
+ */
+
+router.post("/adminLogout",authMiddlewareAdmin, logoutAdmin);
 
 /**
  * @swagger

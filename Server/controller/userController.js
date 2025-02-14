@@ -145,6 +145,10 @@ const logoutUser = (req, res) => {
     res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "Strict" });
     res.json({ message: "Logged out successfully" });
 };
+const logoutAdmin = (req, res) => {
+    res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.json({ message: "Logged out successfully" });
+};
 
 const userSignup = async(req,res) =>{
     const {error} = validateSignup(req.body);
@@ -239,4 +243,4 @@ const getAllUsers = async(req,res) =>{
     }
 }
 
-module.exports = {logoutUser,adminSignup,adminLogin,changePassword,userUpdate,userLogin,userSignup,getAllUsers,addUserType,updateUserType,getAllUserTypes,getAllActiveTypes,ActivateUserType,DeactivateUserType}
+module.exports = {logoutAdmin,logoutUser,adminSignup,adminLogin,changePassword,userUpdate,userLogin,userSignup,getAllUsers,addUserType,updateUserType,getAllUserTypes,getAllActiveTypes,ActivateUserType,DeactivateUserType}

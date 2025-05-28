@@ -1,12 +1,12 @@
 const express = require("express");
 const {
-   addBook,
-   getAllBooks,
-   getBookById,
-   updateBook,
-   ActivateBook,
-   DeactivateBook,
-   getActiveBooks,
+  addBook,
+  getAllBooks,
+  getBookById,
+  updateBook,
+  ActivateBook,
+  DeactivateBook,
+  getActiveBooks,
 } = require("../controller/bookController");
 const router = express.Router();
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -61,11 +61,13 @@ router.post("/book/Add", authMiddleware, upload.single("image"), addBook);
  *   get:
  *     summary: Retrieve all books (Public)
  *     tags: [Books]
+ *     security:
+ *       - BearerAuth: []  # This route requires authentication
  *     responses:
  *       200:
  *         description: List of books retrieved successfully
  */
-router.get("/book/GetAll", getAllBooks); // No auth required
+router.get("/book/GetAll", authMiddleware, getAllBooks); // No auth required
 
 /**
  * @swagger

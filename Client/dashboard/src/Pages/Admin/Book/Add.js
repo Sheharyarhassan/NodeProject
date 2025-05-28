@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Container, Input, Label} from "reactstrap";
 import * as Yup from "yup";
-import {Formik, Form as FormikForm, Field, ErrorMessage} from "formik";
+import {Formik, Form as FormikForm, Field, ErrorMessage, Form} from "formik";
 import api from "../../../ApiHandle/api";
 import PageLoader from "../../../Components/PageLoader";
 import {toast, ToastContainer} from "react-toastify";
@@ -81,8 +81,8 @@ function Add() {
          <Container className="mt-5">
             <h5>Add a new Book</h5>
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-               {(({handleSubmit,setFieldValue})=>
-                  <FormikForm onSubmit={handleSubmit}>
+               {(({setFieldValue})=>
+                  <Form>
                      <div className={"mt-3"}>
                         <Label>Book Title</Label>
                         <Field className="form-control" type={"text"} name="title"/>
@@ -123,7 +123,7 @@ function Add() {
 
                      </div>
                         <Button className={"mt-4"} color={"primary"} type={"submit"}>Add Book</Button>
-                  </FormikForm>
+                  </Form>
                )}
             </Formik>
          </Container>

@@ -1,12 +1,12 @@
 const express = require("express");
 const {
-   addGenre,
-   getGenreById,
-   getAllGenres,
-   updateGenre,
-   ActivateGenre,
-   DeactivateGenre,
-   getActiveGenres,
+  addGenre,
+  getGenreById,
+  getAllGenres,
+  updateGenre,
+  ActivateGenre,
+  DeactivateGenre,
+  getActiveGenres,
 } = require("../controller/genreController");
 
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -52,6 +52,8 @@ router.post("/genre/Add", authMiddleware, addGenre);
  *   get:
  *     summary: Get a genre by ID (Public)
  *     tags: [Genres]
+ *         security:
+ *       - BearerAuth: []  # Requires authentication
  *     parameters:
  *       - in: path
  *         name: id
@@ -65,7 +67,7 @@ router.post("/genre/Add", authMiddleware, addGenre);
  *       404:
  *         description: Genre not found
  */
-router.get("/genre/getById/:id", getGenreById); // No auth required
+router.get("/genre/getById/:id", authMiddleware, getGenreById); // No auth required
 
 /**
  * @swagger

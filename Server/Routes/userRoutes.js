@@ -1,23 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const {
-   changePassword,
-   userUpdate,
-   userLogin,
-   userSignup,
-   getAllUsers,
-   addUserType,
-   updateUserType,
-   getAllUserTypes,
-   getAllActiveTypes,
-   ActivateUserType,
-   DeactivateUserType,
-   adminLogin,
-   adminSignup,
-   logoutUser,
-   logoutAdmin
+  changePassword,
+  userUpdate,
+  userLogin,
+  userSignup,
+  getAllUsers,
+  addUserType,
+  updateUserType,
+  getAllUserTypes,
+  getAllActiveTypes,
+  ActivateUserType,
+  DeactivateUserType,
+  adminSignup,
+  logoutUser,
 } = require("../controller/userController");
-const {authMiddleware,authMiddlewareAdmin} = require("../middleware/authMiddleware");
+const {authMiddleware} = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -26,32 +24,6 @@ const {authMiddleware,authMiddlewareAdmin} = require("../middleware/authMiddlewa
  *   description: API for user management
  */
 
-/**
- * @swagger
- * /adminLogin:
- *   post:
- *     summary: Admin login
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               userName:
- *                 type: string
- *                 example: "username"
- *               password:
- *                 type: string
- *                 example: "password123"
- *     responses:
- *       200:
- *         description: Login successful
- *       401:
- *         description: Invalid credentials
- */
-router.post("/adminLogin", adminLogin);
 /**
  * @swagger
  * /login:
@@ -134,7 +106,7 @@ router.post("/Signup", userSignup);
  *       201:
  *         description: User registered successfully
  */
-router.post("/adminSignup",authMiddlewareAdmin, adminSignup);
+router.post("/addUser", authMiddleware, adminSignup);
 /**
  * @swagger
  * /logout:
@@ -150,23 +122,7 @@ router.post("/adminSignup",authMiddlewareAdmin, adminSignup);
  *         description: Unauthorized - No valid token provided
  */
 
-router.post("/logout",authMiddleware, logoutUser);
-/**
- * @swagger
- * /logout:
- *   post:
- *     summary: Logout user
- *     tags: [Users]
- *     security:
- *       - BearerAuth: []
- *     responses:
- *       200:
- *         description: Successfully logged out
- *       401:
- *         description: Unauthorized - No valid token provided
- */
-
-router.post("/adminLogout",authMiddlewareAdmin, logoutAdmin);
+router.post("/logout", authMiddleware, logoutUser);
 
 /**
  * @swagger

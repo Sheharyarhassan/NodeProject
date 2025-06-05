@@ -189,13 +189,25 @@ router.put("/user/changePassword", authMiddleware, changePassword);
  * @swagger
  * /users/getAll:
  *   get:
- *     summary: Get all users
+ *     summary: Get all users filtered by type
  *     tags: [Users]
  *     security:
  *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum: [user, admin]
+ *         required: true
+ *         description: Filter users by type (user or admin)
  *     responses:
  *       200:
  *         description: List of users retrieved successfully
+ *       400:
+ *         description: Invalid or missing type
+ *       500:
+ *         description: Server error
  */
 router.get("/users/getAll", authMiddleware, getAllUsers);
 

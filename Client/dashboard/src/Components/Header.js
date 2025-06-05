@@ -74,13 +74,27 @@ function Header() {
             </>
           ) : null}
           <NavItem>
-            <NavLink href="/categories/">Categories</NavLink>
+            <NavLink href="/user">Users</NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink href="https://github.com/reactstrap/reactstrap">
-              GitHub
-            </NavLink>
-          </NavItem>
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>
+              Admin
+            </DropdownToggle>
+            <DropdownMenu end>
+              <DropdownItem>
+                <NavLink href="/admin/view">View All</NavLink>
+              </DropdownItem>
+              <DropdownItem divider/>
+              <DropdownItem>
+                <NavLink href="/admin/add">Add Admin</NavLink>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          {/*<NavItem>*/}
+          {/*  <NavLink href="https://github.com/reactstrap/reactstrap">*/}
+          {/*    GitHub*/}
+          {/*  </NavLink>*/}
+          {/*</NavItem>*/}
         </Nav>
         <Nav>
           {token

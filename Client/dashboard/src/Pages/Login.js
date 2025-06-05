@@ -3,7 +3,7 @@ import {Button, Container, Label} from "reactstrap";
 import axios from 'axios';
 import * as Yup from 'yup';
 import {ErrorMessage, Field, Form as FormikForm, Formik} from "formik";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import PageLoader from "../Components/PageLoader";
 import {toast, ToastContainer} from 'react-toastify';
 import background from '../Assets/Images/Login_Bg.jpg';
@@ -84,6 +84,7 @@ function Login() {
               <div className="mt-4">
                 <Button type="submit" color="primary">Login</Button>
               </div>
+              <p className={'text-white mt-3'}>New User? Click <Link to={'/register'}>Here</Link> to Register</p>
             </FormikForm>
           )}
         </Formik>

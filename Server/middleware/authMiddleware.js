@@ -18,7 +18,7 @@ const authMiddleware = async (req, res, next) => {
     if (err.name === 'TokenExpiredError') {
       return refreshAccessToken(req, res, next);
     }
-    return res.status(403).json({message: 'Invalid token'});
+    return res.status(401).json({message: 'Invalid token'});
   }
 };
 
@@ -49,7 +49,7 @@ const refreshAccessToken = async (req, res, next) => {
     await updateLastActive(user._id);
     return next();
   } catch (err) {
-    return res.status(403).json({message: 'Invalid refresh token'});
+    return res.status(401).json({message: 'Invalid refresh token'});
   }
 };
 

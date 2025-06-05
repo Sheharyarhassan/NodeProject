@@ -8,6 +8,7 @@ const {
 const {Signup, userType} = require('../models/userModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const {ObjectId} = require("mongodb");
 require('dotenv').config();
 
 const generateToken = (userId, secret, expiresIn) => {
@@ -122,12 +123,13 @@ const userSignup = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const userTypeDoc = await userType.findOne({name: 'User'});
     const newUser = new Signup({
       name: req.body.name,
       userName: req.body.userName,
       email: req.body.email,
       password: hashedPassword,
-      userType: req.body.userType,
+      userType: userTypeDoc._id,
     })
     await newUser.save();
     res.status(201).send('User Created Successfully');
@@ -192,10 +194,23 @@ const changePassword = async (req, res) => {
   }
 }
 const getAllUsers = async (req, res) => {
+  const {type} = req.query;
+  const validTypes = ['admin', 'user']
+  if (!type) return res.status(400).send('Type is required');
+  if (!validTypes.includes(type.toLowerCase())) {
+    return res.status(400).send("Invalid type. Allowed types are 'user' or 'admin'");
+  }
   try {
     const users = await Signup.find().populate('userType', 'name');
-    const userNames = users.map(user => ({name: user.name, userName: user.userName, email: user.email}));
-    res.status(201).send(userNames);
+    console.log(users)
+    const filteredUsers = users?.filter(user => user.userType?.name.toLowerCase() === type.toLowerCase());
+    const userNames = filteredUsers.map(user => ({
+      id: user._id,
+      name: user.name,
+      userName: user.userName,
+      email: user.email
+    }));
+    res.status(200).send(userNames);
   } catch (err) {
     res.status(500).send("Error: " + err)
   }

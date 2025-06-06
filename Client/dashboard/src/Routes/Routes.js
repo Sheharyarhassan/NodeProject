@@ -9,7 +9,6 @@ import UpdateBook from "../Pages/Admin/Book/Update";
 import User from "../Pages/Admin/User";
 import UpdateUser from "../Pages/Admin/User/Update";
 import AddAdmin from "../Pages/Admin/AdminUsers/Add";
-import UpdateAdmin from "../Pages/Admin/AdminUsers/Update";
 import Logout from "../Pages/Logout";
 import AdminUsers from "../Pages/Admin/AdminUsers";
 import Register from "../Pages/Register";
@@ -27,7 +26,7 @@ const protectedRoutes = [
   {path: '/user/update/:id', component: <UpdateUser/>},
   {path: '/admin/view', component: <AdminUsers/>},
   {path: '/admin/add', component: <AddAdmin/>},
-  {path: '/admin/update/:id', component: <UpdateAdmin/>},
+  {path: '/admin/update/:id', component: <UpdateUser/>},
   {path: '/logout', component: <Logout/>},
 ];
 const publicRoutes = [

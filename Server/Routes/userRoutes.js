@@ -13,6 +13,7 @@ const {
   ActivateUserType,
   DeactivateUserType,
   adminSignup,
+  getUserById,
   logoutUser,
 } = require("../controller/userController");
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -184,6 +185,29 @@ router.put("/user/Update/:id", authMiddleware, userUpdate);
  *         description: Password changed successfully
  */
 router.put("/user/changePassword", authMiddleware, changePassword);
+
+/**
+ * @swagger
+ * /user/getById/{id}:
+ *   get:
+ *     summary: Get User By Id
+ *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       200:
+ *         description: User retrieved successfully
+ *       404:
+ *         description: User not found
+ */
+router.get("/user/getById/:id", authMiddleware, getUserById);
 
 /**
  * @swagger

@@ -156,6 +156,18 @@ const adminSignup = async (req, res) => {
     res.status(500).send("Error: " + err)
   }
 }
+const getUserById = async (req, res) => {
+  if (!req.params.id) return res.status(400).send("Id is Required");
+  try {
+    const user = await Signup.findById(req.params.id)
+    if (!user) {
+      res.status(404).send("Error: User Not Found");
+    }
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).send("Error:" + err);
+  }
+}
 const userUpdate = async (req, res) => {
   if (!req.params.id) return res.status(400).send("Error: id required");
   const {error} = validateUserUpdate(req.body);
@@ -229,5 +241,6 @@ module.exports = {
   getAllUserTypes,
   getAllActiveTypes,
   ActivateUserType,
-  DeactivateUserType
+  DeactivateUserType,
+  getUserById
 }

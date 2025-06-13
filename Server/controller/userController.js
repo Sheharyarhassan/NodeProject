@@ -97,6 +97,7 @@ const userLogin = async (req, res) => {
       return res.status(401).send("Error: Password is not Correct");
     }
     const userTypeName = checkUser.userType.name;
+    const userDetails = {id: checkUser._id, userName: checkUser.userName, name: checkUser.name}
     const accessToken = generateToken(checkUser._id, process.env.JWT_SECRET, '1h');
     const refreshToken = generateToken(checkUser._id, process.env.JWT_REFRESH_SECRET, "7d");
     res.cookie("refreshToken", refreshToken, {
@@ -107,7 +108,7 @@ const userLogin = async (req, res) => {
     });
     checkUser.lastActive = new Date();
     await checkUser.save();
-    res.json({accessToken, userTypeName});
+    res.json({accessToken, userTypeName, userDetails});
   } catch (err) {
     res.status(500).send('Error: ' + err)
   }
@@ -143,12 +144,13 @@ const adminSignup = async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const adminTypeDoc = await userType.findOne({name: 'Admin'});
     const newUser = new Signup({
       name: req.body.name,
       userName: req.body.userName,
       email: req.body.email,
       password: hashedPassword,
-      userType: req.body.userType,
+      userType: adminTypeDoc._id,
     })
     await newUser.save();
     res.status(201).send('User Created Successfully');
@@ -159,11 +161,18 @@ const adminSignup = async (req, res) => {
 const getUserById = async (req, res) => {
   if (!req.params.id) return res.status(400).send("Id is Required");
   try {
-    const user = await Signup.findById(req.params.id)
+    const user = await Signup.findById(req.params.id);
     if (!user) {
-      res.status(404).send("Error: User Not Found");
+      return res.status(404).send("Error: User Not Found");
     }
-    res.status(200).send(user);
+    const userDetails = {
+      id: user._id,
+      name: user.name,
+      userName: user.userName,
+      email: user.email
+    }
+
+    res.status(200).send(userDetails);
   } catch (err) {
     res.status(500).send("Error:" + err);
   }

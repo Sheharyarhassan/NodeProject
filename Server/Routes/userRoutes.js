@@ -174,10 +174,13 @@ router.put("/user/Update/:id", authMiddleware, userUpdate);
  *           schema:
  *             type: object
  *             properties:
- *               oldPassword:
+ *                userName:
+ *                 type: string
+ *                 example: "userName"
+ *                oldPassword:
  *                 type: string
  *                 example: "oldPassword123"
- *               newPassword:
+ *                newPassword:
  *                 type: string
  *                 example: "newPassword456"
  *     responses:

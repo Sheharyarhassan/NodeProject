@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import api from "../../../ApiHandle/api";
 import PageLoader from "../../../Components/PageLoader";
 import {Container, Table} from "reactstrap";
-import {Link} from "react-router-dom";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -26,7 +25,6 @@ const Index = () => {
             <td>Name</td>
             <td>User Name</td>
             <td>Email Address</td>
-            <td>Action</td>
           </tr>
           </thead>
           <tbody>
@@ -35,7 +33,6 @@ const Index = () => {
               <td>{user.name}</td>
               <td>{user.userName}</td>
               <td>{user.email}</td>
-              <td><Link to={`/admin/update/${user.id}`}><i className={'bx bx-pencil'}></i></Link></td>
             </tr>
           ))}
           </tbody>

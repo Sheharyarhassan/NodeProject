@@ -1,0 +1,80 @@
+import React, {useState} from 'react';
+import * as Yup from "yup";
+import api from "../ApiHandle/api";
+import {Button, Container} from "reactstrap";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import PageLoader from "../Components/PageLoader";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
+
+const ChangePassword = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const initialValues = {
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  };
+  const validationSchema = Yup.object({
+    oldPassword: Yup.string().required('Enter Old password'),
+    newPassword: Yup.string()
+      .required('New Password is required')
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .matches(/[0-9]/, 'Password must contain at least one number')
+      .matches(/[@$!%*?&]/, 'Password must contain at least one special character'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+      .required('Please confirm your password'),
+  })
+  const navigate = useNavigate();
+  const handleSubmit = async (values, {resetForm}) => {
+    setIsLoading(true);
+    const {confirmPassword, ...payload} = values;
+    try {
+      const response = api.put('http://localhost:5000/api/user/changePassword', payload)
+      if (response?.status === 200) {
+        toast.success('Password Changed Successfully!', {
+          onClose: () => {
+            setIsLoading(false)
+            resetForm();
+            navigate('/logout');
+          }
+        });
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  }
+  return (
+    <Container className={'py-4'}>
+      <h5 className={'mb-3'}>Change Password</h5>
+      <PageLoader isLoading={isLoading}/>
+      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+        <Form>
+          <div className={'mb-3'}>
+            <Field className={'form-control'} name={'oldPassword'} type={'password'}
+                   placeholder={'Enter Old password'}/>
+            <ErrorMessage className={'text-danger'} name={'oldPassword'} component={'div'}/>
+          </div>
+          <div className={'mb-3'}>
+            <Field className={'form-control'} name={'newPassword'} type={'password'}
+                   placeholder={'Enter New password'}/>
+            <ErrorMessage className={'text-danger'} name={'newPassword'} component={'div'}/>
+          </div>
+          <div className={'mb-3'}>
+            <Field className={'form-control'} name={'confirmPassword'} type={'password'}
+                   placeholder={'Confirm password'}/>
+            <ErrorMessage className={'text-danger'} name={'confirmPassword'} component={'div'}/>
+          </div>
+          <div className={'mb-3'}>
+            <Button color="primary" type={'submit'}>Submit</Button>
+          </div>
+        </Form>
+      </Formik>
+    </Container>
+  );
+};
+
+export default ChangePassword;

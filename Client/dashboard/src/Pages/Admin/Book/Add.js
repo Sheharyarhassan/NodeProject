@@ -6,11 +6,11 @@ import api from "../../../ApiHandle/api";
 import PageLoader from "../../../Components/PageLoader";
 import {toast, ToastContainer} from "react-toastify";
 import {useNavigate} from "react-router-dom";
+import QuillEditor from "../../../Components/QuillEditor";
 
 function Add() {
   const [genre, setGenre] = useState([]);
   const [loading, setLoading] = useState(false);
-  const adminToken = JSON.parse(localStorage.getItem("adminToken"));
   const navigate = useNavigate();
 
   const initialValues = {
@@ -18,7 +18,9 @@ function Add() {
     author: '',
     image: null,
     publishedYear: '',
-    genre: ''
+    genre: '',
+    quantity: 0,
+    description: ''
   }
   const validationSchema = Yup.object({
     title: Yup.string().required('Title cannot be empty'),
@@ -26,19 +28,22 @@ function Add() {
     image: Yup.mixed(),
     publishedYear: Yup.number(),
     genre: Yup.string().required('Genres cannot be empty'),
+    quantity: Yup.number().required(),
+    description: Yup.string().required('Description cannot be empty'),
   })
   const handleSubmit = async (values, {resetForm}) => {
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("author", values.author);
-    if (values && values?.image || values.image !== '') {
+    if (values?.image || values.image !== '') {
       formData.append("image", values.image);
     }
-    if (values && values?.publishedYear || values.publishedYear !== '') {
+    if (values?.publishedYear || values.publishedYear !== '') {
       formData.append("publishedYear", values.publishedYear);
     }
     formData.append("genre", values.genre);
-
+    formData.append("quantity", values.quantity);
+    formData.append("description", values.description);
     try {
       const response = await api.post("http://localhost:5000/api/book/Add", formData,
         {"Content-Type": "multipart/form-data"})
@@ -78,22 +83,29 @@ function Add() {
     <div>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={loading}/>
-      <Container className="mt-5">
+      <Container className="py-5">
         <h5>Add a new Book</h5>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-          {(({setFieldValue}) =>
+          {(
+            ({setFieldValue}) =>
               <Form>
                 <div className={"mt-3"}>
                   <Label>Book Title</Label>
-                  <Field className="form-control" type={"text"} name="title"/>
+                  <Field className="form-control" type={"text"} name="title" placeholder={'Enter Book Title'}/>
                   <ErrorMessage name="title" component="div" className="text-danger"/>
                 </div>
                 <div className={"mt-3"}>
                   <Label>Author Name</Label>
-                  <Field className="form-control mb-3" type={"text"} name="author"/>
+                  <Field className="form-control mb-3" type={"text"} name="author" placeholder={'Enter Author Name'}/>
                   <ErrorMessage name="author" component="div" className="text-danger"/>
 
                 </div>
+                <div className={"mt-3"}>
+                  <Label>Book Description</Label>
+                  <Field name="description" component={QuillEditor}/>
+                  <ErrorMessage name="description" component="div" className="text-danger"/>
+                </div>
+
                 <div className={"mt-3"}>
                   <Label>Select a Genre</Label>
 
@@ -108,8 +120,15 @@ function Add() {
                 </div>
                 <div className={"mt-3"}>
                   <Label>Published Year</Label>
-                  <Field className="form-control mb-3" type={"number"} name="publishedYear"/>
+                  <Field className="form-control mb-3" type={"number"} name="publishedYear"
+                         placeholder={'Enter Published Year'}/>
                   <ErrorMessage name="publishedYear" component="div" className="text-danger"/>
+                </div>
+                <div className={"mt-3"}>
+                  <Label>Book Quantity</Label>
+                  <Field className="form-control" min={0} type={"number"} name="quantity"
+                         placeholder={'Enter Book Quantity'}/>
+                  <ErrorMessage name="quantity" component="div" className="text-danger"/>
                 </div>
                 <div className={"mt-3"}>
                   <Label>Upload Book Image</Label>

@@ -12,6 +12,11 @@ import AddAdmin from "../Pages/Admin/AdminUsers/Add";
 import Logout from "../Pages/Logout";
 import AdminUsers from "../Pages/Admin/AdminUsers";
 import Register from "../Pages/Register";
+import BookDetails from "../Pages/Admin/Book/BookDetails";
+import Genres from "../Pages/Admin/Genre/Genres";
+import BooksByGenre from "../Pages/Admin/Genre/BooksByGenre";
+import UserProfile from "../Pages/Admin/UserProfile";
+import ChangePassword from "../Pages/ChangePassword";
 
 const protectedRoutes = [
   {path: '/dashboard', component: <Home/>},
@@ -28,10 +33,15 @@ const protectedRoutes = [
   {path: '/admin/add', component: <AddAdmin/>},
   {path: '/admin/update/:id', component: <UpdateUser/>},
   {path: '/logout', component: <Logout/>},
+  {path: '/profile', component: <UserProfile/>},
+  {path: '/changepass', component: <ChangePassword/>},
 ];
 const publicRoutes = [
   {path: '/', component: <Home/>},
   {path: '/login', component: <Login/>},
   {path: '/register', component: <Register/>},
+  {path: '/book/:id', component: <BookDetails/>},
+  {path: '/genres', component: <Genres/>},
+  {path: '/genres/:genre', component: <BooksByGenre/>},
 ]
 export {protectedRoutes, publicRoutes}

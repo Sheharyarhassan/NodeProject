@@ -11,8 +11,10 @@ const addBook = async (req, res) => {
     const BookObject = new Book({
       title: req.body.title,
       author: req.body.author,
+      description: req.body.description,
       publishedYear: req.body.publishedYear,
       genre: req.body.genre,
+      quantity: req.body.quantity,
       image: `/uploads/${req.file.filename}`,
       validFlag: true
     });
@@ -52,11 +54,28 @@ const getActiveBooks = async (req, res) => {
     res.status(500).send('Error' + err);
   }
 }
+const getBooksByGenre = async (req, res) => {
+  if (!req.params.genre) {
+    try {
+      const books = await Book.find({validFlag: true}).populate('genre', "name");
+      return res.status(200).send(books)
+    } catch (err) {
+      return res.status(500).send('Error' + err);
+    }
+  } else {
+    try {
+      const books = await Book.find({validFlag: true, genre: req.params.genre}).populate('genre', "name");
+      res.status(200).send(books)
+    } catch (err) {
+      res.status(500).send('Error' + err);
+    }
+  }
+}
 const updateBook = async (req, res) => {
   if (!req.params.id) {
     return res.status(400).send('Id not found');
   }
-  var imagepath = null;
+  var imagePath = null;
   const {error} = bookValidation(req.body);
   if (error) return res.status(400).send("Error: " + error);
   try {
@@ -68,14 +87,17 @@ const updateBook = async (req, res) => {
       if (book.image) {
         const oldImagePath = path.join(__dirname, "../uploads", book.image);
         if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath); // Delete old image
+          fs.unlinkSync(oldImagePath);
         }
       }
-      imagepath = `/uploads/${req.file.filename}`
+      imagePath = `/uploads/${req.file.filename}`
+    }
+    if (!req.file) {
+      imagePath = book.image;
     }
     const updatedBook = await Book.findByIdAndUpdate(
       req.params.id,
-      {$set: req.body, image: imagepath},
+      {$set: req.body, image: imagePath},
       {new: true, runValidators: true}
     );
     if (!updatedBook) {
@@ -115,4 +137,13 @@ const DeactivateBook = async (req, res) => {
   }
 }
 
-module.exports = {getAllBooks, getBookById, addBook, updateBook, ActivateBook, DeactivateBook, getActiveBooks}
+module.exports = {
+  getBooksByGenre,
+  getAllBooks,
+  getBookById,
+  addBook,
+  updateBook,
+  ActivateBook,
+  DeactivateBook,
+  getActiveBooks
+}

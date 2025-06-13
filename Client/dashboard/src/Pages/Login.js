@@ -34,6 +34,7 @@ function Login() {
         setIsLoading(false);
         localStorage.setItem('token', JSON.stringify(response.data.accessToken))
         localStorage.setItem('userType', JSON.stringify(response.data.userTypeName))
+        localStorage.setItem('userDetails', JSON.stringify(response.data.userDetails))
         toast.success("Login Successful!", {
           onClose: () => {
             window.dispatchEvent(new Event("authChange"));

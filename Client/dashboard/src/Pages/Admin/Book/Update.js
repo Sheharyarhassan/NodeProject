@@ -6,6 +6,7 @@ import {toast, ToastContainer} from "react-toastify";
 import {Button, Container, Input, Label} from "reactstrap";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
+import QuillEditor from "../../../Components/QuillEditor";
 
 const Update = () => {
   const [genre, setGenre] = useState([]);
@@ -21,13 +22,15 @@ const Update = () => {
       console.log(error);
       setLoading(false);
     })
-  }, [])
+  }, [id])
   const initialValues = {
-    title: book && book?.title || '',
-    author: book && book?.author || '',
+    title: book?.title || '',
+    author: book?.author || '',
     image: null,
-    publishedYear: book && book?.publishedYear || '',
-    genre: book && book?.genre?._id || ''
+    publishedYear: book?.publishedYear || '',
+    genre: book?.genre?._id || '',
+    quantity: book?.quantity || 0,
+    description: book?.description || '',
   }
   const validationSchema = Yup.object({
     title: Yup.string().required('Title cannot be empty'),
@@ -35,19 +38,22 @@ const Update = () => {
     image: Yup.mixed().nullable(),
     publishedYear: Yup.number(),
     genre: Yup.string().required('Genres cannot be empty'),
+    quantity: Yup.number().required('Quantity cannot be empty'),
+    description: Yup.string().required('Description cannot be empty'),
   })
   const handleSubmit = async (values, {resetForm}) => {
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("author", values.author);
-    if (values && values?.image || values.image !== '') {
+    if (values?.image || values.image !== '') {
       formData.append("image", values.image);
     }
-    if (values && values?.publishedYear || values.publishedYear !== '') {
+    if (values?.publishedYear || values.publishedYear !== '') {
       formData.append("publishedYear", values.publishedYear);
     }
     formData.append("genre", values.genre);
-
+    formData.append("quantity", values.quantity);
+    formData.append("description", values.description);
     try {
       const response = await api.put(`http://localhost:5000/api/book/Update/${id}`, formData,
         {isAdmin: true, "Content-Type": "multipart/form-data"})
@@ -87,7 +93,7 @@ const Update = () => {
     <div>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={loading}/>
-      <Container className="mt-5">
+      <Container className="py-5">
         <h5>Update Book</h5>
         <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
@@ -95,14 +101,19 @@ const Update = () => {
               <Form>
                 <div className={"mt-3"}>
                   <Label>Book Title</Label>
-                  <Field className="form-control" type={"text"} name="title"/>
+                  <Field className="form-control" type={"text"} name="title" placeholder={'Enter Book Title'}/>
                   <ErrorMessage name="title" component="div" className="text-danger"/>
                 </div>
                 <div className={"mt-3"}>
                   <Label>Author Name</Label>
-                  <Field className="form-control mb-3" type={"text"} name="author"/>
+                  <Field className="form-control mb-3" type={"text"} name="author" placeholder={'Enter Author Name'}/>
                   <ErrorMessage name="author" component="div" className="text-danger"/>
 
+                </div>
+                <div className={"mt-3"}>
+                  <Label>Book Description</Label>
+                  <Field name="description" component={QuillEditor}/>
+                  <ErrorMessage name="description" component="div" className="text-danger"/>
                 </div>
                 <div className={"mt-3"}>
                   <Label>Select a Genre</Label>
@@ -118,8 +129,15 @@ const Update = () => {
                 </div>
                 <div className={"mt-3"}>
                   <Label>Published Year</Label>
-                  <Field className="form-control mb-3" type={"number"} name="publishedYear"/>
+                  <Field className="form-control mb-3" type={"number"} name="publishedYear"
+                         placeholder={'Enter Published Year'}/>
                   <ErrorMessage name="publishedYear" component="div" className="text-danger"/>
+                </div>
+                <div className={"mt-3"}>
+                  <Label>Book Quantity</Label>
+                  <Field className="form-control" min={0} type={"number"} name="quantity"
+                         placeholder={'Enter Book Quantity'}/>
+                  <ErrorMessage name="quantity" component="div" className="text-danger"/>
                 </div>
                 <div className={"mt-3"}>
                   <Label>Current Image</Label><br/>

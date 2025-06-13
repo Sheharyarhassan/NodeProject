@@ -18,12 +18,14 @@ function Header() {
   const toggle = () => setIsOpen(!isOpen);
   const [token, setToken] = useState(null);
   const [userType, setUserType] = useState(null);
+  const [user, setUser] = useState(null);
   const loadAuthData = () => {
     const storedToken = localStorage.getItem("token") && JSON.parse(localStorage.getItem("token"));
     const storedUserType = localStorage.getItem("userType") && JSON.parse(localStorage.getItem("userType"));
-
+    const storedUser = localStorage.getItem("userDetails") && JSON.parse(localStorage.getItem("userDetails"));
     setToken(storedToken ? storedToken : null);
     setUserType(storedUserType ? storedUserType : null);
+    setUser(storedUser ? storedUser.name : null);
   };
 
   useEffect(() => {
@@ -90,16 +92,31 @@ function Header() {
             </>
           ) : null}
 
-          {/*<NavItem>*/}
-          {/*  <NavLink href="https://github.com/reactstrap/reactstrap">*/}
-          {/*    GitHub*/}
-          {/*  </NavLink>*/}
-          {/*</NavItem>*/}
+          <NavItem>
+            <NavLink href="/genres">
+              Categories
+            </NavLink>
+          </NavItem>
         </Nav>
         <Nav>
           {token
             ?
-            <NavLink href="/logout">Logout</NavLink> :
+            <>
+              <UncontrolledDropdown>
+                <DropdownToggle nav caret>{user}</DropdownToggle>
+                <DropdownMenu end>
+                  <DropdownItem>
+                    <NavLink href="/profile">Profile</NavLink>
+                  </DropdownItem>
+                  <DropdownItem divider/>
+                  <DropdownItem>
+                    <NavLink href="/changepass">Change Password</NavLink>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              <NavLink href="/logout">Logout</NavLink>
+            </>
+            :
             <>
               <NavLink href="/login">Login</NavLink>
             </>

@@ -23,9 +23,9 @@ const Logout = () => {
   }
   useEffect(() => {
     if (token) {
-      logoutClient(false)
+      logoutClient()
     }
-  }, []);
+  }, [token]);
   return (
     <div>
       <PageLoader isLoading={loading}/>

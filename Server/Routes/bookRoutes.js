@@ -7,6 +7,7 @@ const {
   ActivateBook,
   DeactivateBook,
   getActiveBooks,
+  getBooksByGenre,
 } = require("../controller/bookController");
 const router = express.Router();
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -68,6 +69,25 @@ router.post("/book/Add", authMiddleware, upload.single("image"), addBook);
  *         description: List of books retrieved successfully
  */
 router.get("/book/GetAll", authMiddleware, getAllBooks); // No auth required
+
+/**
+ * @swagger
+ * /book/GetBooksByGenre/{genre}:
+ *   get:
+ *     summary: Retrieve Active books by Genre (Public)
+ *     tags: [Books]
+ *     parameters:
+ *      - in: path
+ *        name: genre
+ *        required: true
+ *        schema:
+ *         type: string
+ *         description: Genre
+ *     responses:
+ *       200:
+ *         description: List of books retrieved successfully
+ */
+router.get("/book/GetBooksByGenre/:genre", getBooksByGenre);
 
 /**
  * @swagger

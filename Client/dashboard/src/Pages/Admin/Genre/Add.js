@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {Button, Container, Label} from "reactstrap";
 import {ErrorMessage, Field, Form as FormikForm, Formik} from "formik";
 import * as Yup from "yup";
 import {toast, ToastContainer} from "react-toastify";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import PageLoader from "../../../Components/PageLoader";
+import {Box, Button, Container, TextField} from "@mui/material";
 
 function Add() {
   const [loading, setLoading] = useState(false);
@@ -33,25 +33,26 @@ function Add() {
 
   }
   return (
-    <div>
+    <Box>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={loading}/>
-      <Container className={"mt-4"}>
+      <Container fixed sx={{padding: '1.5rem'}}>
         <h5>Add a new Genre</h5>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           {({handleSubmit}) => (
             <FormikForm onSubmit={handleSubmit}>
-              <div className={'mb-3'}>
-                <Label>Genre Name</Label>
-                <Field className={"form-control"} name="name" type="text"/>
+              <Box sx={{marginBottom: '1.5rem'}}>
+                {/*<Label>Genre Name</Label>*/}
+                <Field as={TextField} fullWidth label={'Genre Name'} className={"form-control"} name="name"
+                       type="text"/>
                 <ErrorMessage name="name" component="div" className={"text-danger"}/>
-              </div>
-              <Button color={"primary"} type="submit">Add Genre</Button>
+              </Box>
+              <Button variant='contained' type="submit">Add Genre</Button>
             </FormikForm>
           )}
         </Formik>
       </Container>
-    </div>
+    </Box>
   );
 }
 

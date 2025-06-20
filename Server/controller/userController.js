@@ -9,6 +9,7 @@ const {Signup, userType} = require('../models/userModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {ObjectId} = require("mongodb");
+const {Cart} = require("../models/cartModels");
 require('dotenv').config();
 
 const generateToken = (userId, secret, expiresIn) => {
@@ -108,6 +109,30 @@ const userLogin = async (req, res) => {
     });
     checkUser.lastActive = new Date();
     await checkUser.save();
+    const guestId = req.cookies.guestId;
+    let guestCart = null;
+    if (guestId) {
+      guestCart = await Cart.findOne({guestId});
+    }
+    const userCart = await Cart.findOne({userId: checkUser._id});
+    if (guestCart) {
+      if (!userCart) {
+        guestCart.userId = checkUser._id;
+        guestCart.guestId = null;
+        await guestCart.save();
+      } else {
+        guestCart.item.forEach(item => {
+          const index = userCart.item.findIndex(i => i.book.equals(item.book));
+          if (index > -1) {
+            userCart.item[index].quantity += item.quantity;
+          } else {
+            userCart.item.push(item);
+          }
+        });
+        await userCart.save();
+        await guestCart.deleteOne();
+      }
+    }
     res.json({accessToken, userTypeName, userDetails});
   } catch (err) {
     res.status(500).send('Error: ' + err)

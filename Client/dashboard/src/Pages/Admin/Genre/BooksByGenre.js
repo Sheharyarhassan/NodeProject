@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import api from "../../../ApiHandle/api";
-import {Card, CardBody, CardImg, CardSubtitle, CardTitle, Col, Container, Row} from "reactstrap";
 import PageLoader from "../../../Components/PageLoader";
+import {Box, Card, CardContent, CardMedia, Container, Grid, Typography} from "@mui/material";
 
 const BooksByGenre = () => {
   const {genre} = useParams();
@@ -15,38 +15,36 @@ const BooksByGenre = () => {
     })
   }, [])
   return (
-    <Container fluid className={'py-4'}>
-      <h4 className={'text-center mb-3'}>{data && data[0]?.genre?.name}</h4>
-      <Row className="g-3">
+    <Container fluid sx={{padding: '1.5rem'}}>
+      <Typography sx={{margin: '2rem 0'}} component={'h1'} variant={'h5'}>{data && data[0]?.genre?.name}</Typography>
+      <Grid container spacing={2}>
         <PageLoader isLoading={loading}/>
         {data && data?.length > 0 ?
           data?.map((book, index) => (
-            <Col md={4} sm={6} key={index}>
-              <Link className={'text-decoration-none'} to={`/book/${book._id}`}>
-                <Card>
-                  <CardImg style={{height: '450px'}} className={"w-100"} top src={`http://localhost:5000${book.image}`}
-                           alt={book.title}/>
-                  <CardBody className={"d-flex justify-content-between"}>
-                    <div>
-                      <CardTitle className={"fw-bold"} tag="h5">{book.title}</CardTitle>
-                      <CardSubtitle tag="h6" className="text-muted">
-                        {book.author}
-                      </CardSubtitle>
-                    </div>
-                    <div>
-                      <CardSubtitle className="small text-muted">
-                        {book.genre.name}
-                      </CardSubtitle>
-                    </div>
-                  </CardBody>
+            <Grid item size={{md: 4, sm: 6}} key={index}>
+              <Link style={{textDecoration: 'none'}} to={`/book/${book._id}`}>
+                <Card sx={{height: '100%'}}>
+                  <CardMedia sx={{height: 550, objectFit: 'cover'}}
+                             image={`http://localhost:5000${book.image}`}
+                             title={book.title}/>
+                  <CardContent
+                    sx={{flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                      <Typography variant="h6">{book.title}</Typography>
+                      <Typography variant="body2">{book.genre.name}</Typography>
+                    </Box>
+                    <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+                      <Typography variant="body2">{book.author}</Typography>
+                    </Box>
+                  </CardContent>
                 </Card>
               </Link>
-            </Col>
+            </Grid>
           ))
           :
           <h5 className={'text-center'}>No Book Found in this Category</h5>
         }
-      </Row>
+      </Grid>
     </Container>
   );
 };

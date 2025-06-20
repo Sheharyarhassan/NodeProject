@@ -1,6 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import {protectedRoutes, publicRoutes} from './Routes'; // Import named exports
+import {protectedRoutes, publicRoutes} from './Routes';
 import ProtectedRoute from './ProtectedRoute';
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";

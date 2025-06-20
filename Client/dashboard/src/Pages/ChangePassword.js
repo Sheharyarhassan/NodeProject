@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import * as Yup from "yup";
 import api from "../ApiHandle/api";
-import {Button, Container} from "reactstrap";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import PageLoader from "../Components/PageLoader";
-import {toast} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import {useNavigate} from "react-router-dom";
+import {Button, Container, TextField} from "@mui/material";
 
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const storedUser = localStorage.getItem("userDetails") && JSON.parse(localStorage.getItem("userDetails"));
   const initialValues = {
+    userName: storedUser.userName,
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
@@ -32,9 +34,10 @@ const ChangePassword = () => {
     setIsLoading(true);
     const {confirmPassword, ...payload} = values;
     try {
-      const response = api.put('http://localhost:5000/api/user/changePassword', payload)
-      if (response?.status === 200) {
-        toast.success('Password Changed Successfully!', {
+      const response = await api.put('http://localhost:5000/api/user/changePassword', payload)
+      console.log(response.status)
+      if (response.status === 200) {
+        toast.success(response.data || 'Password Changed Successfully!', {
           onClose: () => {
             setIsLoading(false)
             resetForm();
@@ -48,28 +51,29 @@ const ChangePassword = () => {
     }
   }
   return (
-    <Container className={'py-4'}>
+    <Container fixed className={'py-4'}>
       <h5 className={'mb-3'}>Change Password</h5>
       <PageLoader isLoading={isLoading}/>
+      <ToastContainer autoClose={2000}/>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
         <Form>
           <div className={'mb-3'}>
-            <Field className={'form-control'} name={'oldPassword'} type={'password'}
+            <Field as={TextField} className={'form-control'} name={'oldPassword'} type={'password'}
                    placeholder={'Enter Old password'}/>
             <ErrorMessage className={'text-danger'} name={'oldPassword'} component={'div'}/>
           </div>
           <div className={'mb-3'}>
-            <Field className={'form-control'} name={'newPassword'} type={'password'}
+            <Field as={TextField} className={'form-control'} name={'newPassword'} type={'password'}
                    placeholder={'Enter New password'}/>
             <ErrorMessage className={'text-danger'} name={'newPassword'} component={'div'}/>
           </div>
           <div className={'mb-3'}>
-            <Field className={'form-control'} name={'confirmPassword'} type={'password'}
+            <Field as={TextField} className={'form-control'} name={'confirmPassword'} type={'password'}
                    placeholder={'Confirm password'}/>
             <ErrorMessage className={'text-danger'} name={'confirmPassword'} component={'div'}/>
           </div>
           <div className={'mb-3'}>
-            <Button color="primary" type={'submit'}>Submit</Button>
+            <Button variant='contained' type={'submit'}>Submit</Button>
           </div>
         </Form>
       </Formik>

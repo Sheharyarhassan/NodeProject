@@ -4,8 +4,8 @@ import PageLoader from "../../Components/PageLoader";
 import * as Yup from "yup";
 import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
-import {Button, Container} from "reactstrap";
 import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Button, Container, TextField} from "@mui/material";
 
 const UserProfile = () => {
   const storedUser = localStorage.getItem("userDetails") && JSON.parse(localStorage.getItem("userDetails"));
@@ -51,24 +51,26 @@ const UserProfile = () => {
     <div>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={loading}/>
-      <Container className={'py-4'}>
+      <Container fixed className={'py-4'}>
         <h5 className={'mb-3'}>User Profile</h5>
         <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
           <Form>
             <div className="mb-3">
-              <Field className={'form-control'} type={'text'} name={'name'} placeholder={'Enter Name'}/>
+              <Field as={TextField} className={'form-control'} type={'text'} name={'name'} placeholder={'Enter Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'name'}/>
             </div>
             <div className={'mb-3'}>
-              <Field className={'form-control'} type={'text'} name={'userName'} placeholder={'Enter User Name'}/>
+              <Field as={TextField} className={'form-control'} type={'text'} name={'userName'}
+                     placeholder={'Enter User Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'userName'}/>
             </div>
             <div className={'mb-3'}>
-              <Field className={'form-control'} type={'email'} name={'email'} placeholder={'Enter Email'}/>
+              <Field as={TextField} className={'form-control'} type={'email'} name={'email'}
+                     placeholder={'Enter Email'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'email'}/>
             </div>
-            <Button color={'primary'} type={'submit'}>Submit</Button>
+            <Button variant='contained' type={'submit'}>Submit</Button>
           </Form>
         </Formik>
       </Container>

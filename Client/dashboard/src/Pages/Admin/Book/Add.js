@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Input, Label} from "reactstrap";
 import * as Yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import api from "../../../ApiHandle/api";
@@ -7,6 +6,7 @@ import PageLoader from "../../../Components/PageLoader";
 import {toast, ToastContainer} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import QuillEditor from "../../../Components/QuillEditor";
+import {Box, Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 
 function Add() {
   const [genre, setGenre] = useState([]);
@@ -28,7 +28,7 @@ function Add() {
     image: Yup.mixed(),
     publishedYear: Yup.number(),
     genre: Yup.string().required('Genres cannot be empty'),
-    quantity: Yup.number().required(),
+    quantity: Yup.number().min(0).required(),
     description: Yup.string().required('Description cannot be empty'),
   })
   const handleSubmit = async (values, {resetForm}) => {
@@ -80,73 +80,81 @@ function Add() {
     populateGenres()
   }, []);
   return (
-    <div>
+    <Box>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={loading}/>
-      <Container className="py-5">
-        <h5>Add a new Book</h5>
+      <Container fixed sx={{padding: '1.5rem'}}>
+        <Typography component={'h1'} variant={'h5'}>Add a new Book</Typography>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           {(
             ({setFieldValue}) =>
               <Form>
-                <div className={"mt-3"}>
-                  <Label>Book Title</Label>
-                  <Field className="form-control" type={"text"} name="title" placeholder={'Enter Book Title'}/>
-                  <ErrorMessage name="title" component="div" className="text-danger"/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Author Name</Label>
-                  <Field className="form-control mb-3" type={"text"} name="author" placeholder={'Enter Author Name'}/>
-                  <ErrorMessage name="author" component="div" className="text-danger"/>
+                <Box sx={{marginTop: '1rem'}}>
+                  {/*<Label>Book Title</Label>*/}
+                  <Field as={TextField} fullWidth label={'Book Title'} className="form-control" type={"text"}
+                         name="title"
+                         placeholder={'Enter Book Title'}/>
+                  <ErrorMessage name="title" component={Typography} sx={{color: 'red'}}/>
+                </Box>
+                <Box sx={{marginTop: '1rem'}}>
+                  {/*<Label>Author Name</Label>*/}
+                  <Field as={TextField} fullWidth label={'Author Name'} className="form-control mb-3" type={"text"}
+                         name="author"
+                         placeholder={'Enter Author Name'}/>
+                  <ErrorMessage name="author" component={Typography} sx={{color: 'red'}}/>
 
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Book Description</Label>
-                  <Field name="description" component={QuillEditor}/>
-                  <ErrorMessage name="description" component="div" className="text-danger"/>
-                </div>
+                </Box>
+                <Box sx={{marginTop: '1rem'}}>
+                  {/*<Label>Book Description</Label>*/}
+                  <Field as={TextField} fullWidth label={'Book Description'} name="description"
+                         component={QuillEditor}/>
+                  <ErrorMessage name="description" component={Typography} sx={{color: 'red'}}/>
+                </Box>
 
-                <div className={"mt-3"}>
-                  <Label>Select a Genre</Label>
-
-                  <Field className="form-control mb-3" as="select" name="genre">
-                    <option value="">Select a Genre</option>
-                    {genre.map((item, index) => (
-                      <option value={item._id} key={index}>{item.name}</option>
-                    ))}
-                  </Field>
-                  <ErrorMessage name="genre" component="div" className="text-danger"/>
-
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Published Year</Label>
-                  <Field className="form-control mb-3" type={"number"} name="publishedYear"
+                <Box sx={{marginTop: '1rem'}}>
+                  {/*<Label>Select a Genre</Label>*/}
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Select a Genre</InputLabel>
+                    <Field as={Select} label={'Select a Genre'} name="genre">
+                      {genre.map((item, index) => (
+                        <MenuItem value={item._id} key={index}>{item.name}</MenuItem>
+                      ))}
+                    </Field>
+                  </FormControl>
+                  <ErrorMessage name="genre" component={Typography} sx={{color: 'red'}}/>
+                </Box>
+                <Box sx={{marginTop: '1rem'}}>
+                  {/*<Label>Published Year</Label>*/}
+                  <Field as={TextField} fullWidth label={'Published Year'} className="form-control mb-3" type={"number"}
+                         name="publishedYear"
                          placeholder={'Enter Published Year'}/>
-                  <ErrorMessage name="publishedYear" component="div" className="text-danger"/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Book Quantity</Label>
-                  <Field className="form-control" min={0} type={"number"} name="quantity"
+                  <ErrorMessage name="publishedYear" component={Typography} sx={{color: 'red'}}/>
+                </Box>
+                <Box sx={{marginTop: '1rem'}}>
+                  {/*<Label>Book Quantity</Label>*/}
+                  <Field as={TextField} fullWidth label={'Book Quantity'} className="form-control" min={0}
+                         type={"number"}
+                         name="quantity"
                          placeholder={'Enter Book Quantity'}/>
-                  <ErrorMessage name="quantity" component="div" className="text-danger"/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Upload Book Image</Label>
-                  <Input
+                  <ErrorMessage name="quantity" component={Typography} sx={{color: 'red'}}/>
+                </Box>
+                <Box sx={{marginTop: '1rem'}}>
+                  <InputLabel sx={{marginBottom: '0.5rem'}}>Upload Book Image</InputLabel>
+                  <input
                     className="form-control"
                     type="file"
                     name="image"
                     onChange={(event) => setFieldValue("image", event.currentTarget.files[0])}
                   />
-                  <ErrorMessage name="image" component="div" className="text-danger"/>
+                  <ErrorMessage name="image" component={Typography} sx={{color: 'red'}}/>
 
-                </div>
-                <Button className={"mt-4"} color={"primary"} type={"submit"}>Add Book</Button>
+                </Box>
+                <Button sx={{marginTop: '1rem'}} variant="contained" type={"submit"}>Add Book</Button>
               </Form>
           )}
         </Formik>
       </Container>
-    </div>
+    </Box>
   );
 }
 

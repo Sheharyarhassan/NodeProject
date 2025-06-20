@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {toast, ToastContainer} from "react-toastify";
 import PageLoader from "../../../Components/PageLoader";
-import {Button, Container} from "reactstrap";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {useNavigate} from "react-router-dom";
 import api from "../../../ApiHandle/api";
+import {Box, Button, Container, styled, TextField, Typography} from "@mui/material";
 
 const Add = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -51,40 +51,50 @@ const Add = () => {
       setIsLoading(false);
     }
   }
+  const StyledErrorMessage = styled(ErrorMessage)`color: red`
   return (
-    <div>
+    <Box>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={isLoading}/>
-      <Container>
+      <Container fixed sx={{padding: '1.5rem'}}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           <Form>
-            <h5 className="py-3">Add a new Admin</h5>
-            <div className="mb-3">
-              <Field className={'form-control'} type={'text'} name={'name'} placeholder={'Enter Name'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'name'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field className={'form-control'} type={'text'} name={'userName'} placeholder={'Enter User Name'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'userName'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field className={'form-control'} type={'email'} name={'email'} placeholder={'Enter Email'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'email'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field className={'form-control'} type={'password'} name={'password'} placeholder={'Enter Password'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'password'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field className={'form-control'} type={'password'} name={'confirmPassword'}
+            <Typography component='h1' variant='h5'>Add a new Admin</Typography>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth label={'Name'} className={'form-control'} type={'text'} name={'name'}
+                     placeholder={'Enter Name'}/>
+              <StyledErrorMessage className={'text-danger'} component={'div'} name={'name'}/>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth label={'User Name'} className={'form-control'} type={'text'}
+                     name={'userName'}
+                     placeholder={'Enter User Name'}/>
+              <StyledErrorMessage className={'text-danger'} component={'div'} name={'userName'}/>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth label={'Email'} className={'form-control'} type={'email'} name={'email'}
+                     placeholder={'Enter Email'}/>
+              <StyledErrorMessage className={'text-danger'} component={'div'} name={'email'}/>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth label={'Password'} className={'form-control'} type={'password'}
+                     name={'password'}
+                     placeholder={'Enter Password'}/>
+              <StyledErrorMessage className={'text-danger'} component={'div'} name={'password'}/>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth label={'Confirm Password'} className={'form-control'} type={'password'}
+                     name={'confirmPassword'}
                      placeholder={'Confirm Password'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'confirmPassword'}/>
-            </div>
-            <Button color={'primary'} type={'submit'}>Submit</Button>
+              <StyledErrorMessage className={'text-danger'} component={'div'} name={'confirmPassword'}/>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Button variant='contained' type={'submit'}>Submit</Button>
+            </Box>
           </Form>
         </Formik>
       </Container>
-    </div>
+    </Box>
   );
 };
 

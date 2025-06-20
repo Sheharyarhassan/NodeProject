@@ -1,8 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import api from '../../../ApiHandle/api'
 import PageLoader from "../../../Components/PageLoader";
-import {Badge, Container} from "reactstrap";
 import {Link} from "react-router-dom";
+import {
+  Chip,
+  Container,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  tableCellClasses,
+  TableHead,
+  TableRow,
+  Typography
+} from "@mui/material";
 
 function Index() {
 
@@ -34,43 +45,63 @@ function Index() {
   useEffect(() => {
     fetchData();
   }, [])
+  const StyledTableCell = styled(TableCell)(({theme}) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+  const StyledTableRow = styled(TableRow)(({theme}) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
   return (
     <div>
       <PageLoader isLoading={loading}/>
-      <Container fluid>
-        <table className="table table-striped">
-          <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Published Year</th>
-            <th>Genre</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          {data && data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.title}</td>
-              <td>{item.author}</td>
-              <td>{item.publishedYear}</td>
-              <td>{item.genre.name}</td>
-              <td>{item.validFlag ?
-                <Badge color={"success-subtle text-dark"}>Active</Badge> :
-                <Badge color={"warning-subtle text-dark"}>Disabled</Badge>}
-              </td>
-              <td>{item.validFlag ?
-                <i className={'bx bx-trash text-danger'} role={'button'}
-                   onClick={() => updateStatus(true, item._id)}></i> :
-                <i className={'bx bx-check text-success'} role={'button'}
-                   onClick={() => updateStatus(false, item._id)}></i>}
-                <Link to={`/book/update/${item._id}`}><i className={'bx bx-pencil text-primary'}></i></Link>
-              </td>
-            </tr>
-          ))}
-          </tbody>
-        </table>
+      <Container fluid sx={{padding: '1.5rem'}}>
+        <Typography sx={{margin: '2rem 0'}} component='h1' variant='h5'>
+          Book Details
+        </Typography>
+        <Table>
+          <TableHead>
+            <StyledTableRow>
+              <StyledTableCell>Title</StyledTableCell>
+              <StyledTableCell>Author</StyledTableCell>
+              <StyledTableCell>Published Year</StyledTableCell>
+              <StyledTableCell>Genre</StyledTableCell>
+              <StyledTableCell>Status</StyledTableCell>
+              <StyledTableCell>Action</StyledTableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            {data && data.map((item, index) => (
+              <StyledTableRow key={index}>
+                <StyledTableCell>{item.title}</StyledTableCell>
+                <StyledTableCell>{item.author}</StyledTableCell>
+                <StyledTableCell>{item.publishedYear}</StyledTableCell>
+                <StyledTableCell>{item.genre.name}</StyledTableCell>
+                <StyledTableCell>{item.validFlag ?
+                  <Chip label="Active" color="primary"/> :
+                  <Chip label="Disabled" color="success"/>}
+                </StyledTableCell>
+                <StyledTableCell>{item.validFlag ?
+                  <i className={'bx bx-trash text-danger'} role={'button'}
+                     onClick={() => updateStatus(true, item._id)}></i> :
+                  <i className={'bx bx-check text-success'} role={'button'}
+                     onClick={() => updateStatus(false, item._id)}></i>}
+                  <Link to={`/book/update/${item._id}`}><i className={'bx bx-pencil text-primary'}></i></Link>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
       </Container>
     </div>
   );

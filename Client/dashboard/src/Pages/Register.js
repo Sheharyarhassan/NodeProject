@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import * as Yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {Button, Container} from "reactstrap";
 import background from "../Assets/Images/Login_Bg.jpg";
 import {toast, ToastContainer} from "react-toastify";
 import PageLoader from "../Components/PageLoader";
 import book from "../Assets/Images/Book2.png";
 import api from "../ApiHandle/api";
 import {useNavigate} from "react-router-dom";
+import {Button, Container, TextField} from "@mui/material";
 
 function Register() {
   const [isLoading, setIsLoading] = useState(false);
@@ -64,7 +64,7 @@ function Register() {
     <div style={mainStyle} className={'pt-5'}>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={isLoading}/>
-      <Container className={"px-lg-5"}>
+      <Container fixed sx={{padding: '0 1.5rem'}}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           <Form style={{backgroundColor: 'rgba(0,0,0,0.6)'}} className={"p-lg-5 p-3 rounded-3"}>
             <div className={"d-flex align-items-center justify-content-center"}>
@@ -73,27 +73,32 @@ function Register() {
               <img src={book} alt={"book"} className={"mw-100 h-auto"}/>
             </div>
             <div className="my-3">
-              <Field className={'form-control'} type={'text'} name={'name'} placeholder={'Enter Name'}/>
+              <Field as={TextField} label={'Name'} className={'form-control'} type={'text'} name={'name'}
+                     placeholder={'Enter Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'name'}/>
             </div>
             <div className={'mb-3'}>
-              <Field className={'form-control'} type={'text'} name={'userName'} placeholder={'Enter User Name'}/>
+              <Field as={TextField} label={'User Name'} className={'form-control'} type={'text'} name={'userName'}
+                     placeholder={'Enter User Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'userName'}/>
             </div>
             <div className={'mb-3'}>
-              <Field className={'form-control'} type={'email'} name={'email'} placeholder={'Enter Email'}/>
+              <Field as={TextField} label={'Email'} className={'form-control'} type={'email'} name={'email'}
+                     placeholder={'Enter Email'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'email'}/>
             </div>
             <div className={'mb-3'}>
-              <Field className={'form-control'} type={'password'} name={'password'} placeholder={'Enter Password'}/>
+              <Field as={TextField} label={'Password'} className={'form-control'} type={'password'} name={'password'}
+                     placeholder={'Enter Password'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'password'}/>
             </div>
             <div className={'mb-3'}>
-              <Field className={'form-control'} type={'password'} name={'confirmPassword'}
+              <Field as={TextField} label={'Confirm Passowrd'} className={'form-control'} type={'password'}
+                     name={'confirmPassword'}
                      placeholder={'Confirm Password'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'confirmPassword'}/>
             </div>
-            <Button color={'primary'} type={'submit'}>Submit</Button>
+            <Button variant='contained' type={'submit'}>Submit</Button>
           </Form>
         </Formik>
       </Container>

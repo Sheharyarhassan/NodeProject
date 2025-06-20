@@ -3,10 +3,10 @@ import api from "../../../ApiHandle/api";
 import {useNavigate, useParams} from "react-router-dom";
 import PageLoader from "../../../Components/PageLoader";
 import {toast, ToastContainer} from "react-toastify";
-import {Button, Container, Input, Label} from "reactstrap";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import QuillEditor from "../../../Components/QuillEditor";
+import {Box, Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 
 const Update = () => {
   const [genre, setGenre] = useState([]);
@@ -38,7 +38,7 @@ const Update = () => {
     image: Yup.mixed().nullable(),
     publishedYear: Yup.number(),
     genre: Yup.string().required('Genres cannot be empty'),
-    quantity: Yup.number().required('Quantity cannot be empty'),
+    quantity: Yup.number().min(0).required('Quantity cannot be empty'),
     description: Yup.string().required('Description cannot be empty'),
   })
   const handleSubmit = async (values, {resetForm}) => {
@@ -90,62 +90,65 @@ const Update = () => {
     populateGenres()
   }, []);
   return (
-    <div>
+    <Box>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={loading}/>
-      <Container className="py-5">
-        <h5>Update Book</h5>
+      <Container fixed sx={{padding: '1.5rem'}}>
+        <Typography component={'h1'} variant={'h5'}>Update Book</Typography>
         <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
           {(({setFieldValue}) =>
               <Form>
-                <div className={"mt-3"}>
-                  <Label>Book Title</Label>
-                  <Field className="form-control" type={"text"} name="title" placeholder={'Enter Book Title'}/>
+                <Box sx={{marginTop: '1.5rem'}}>
+                  <Field as={TextField} label={'Book Title'} className="form-control" type={"text"} name="title"
+                         placeholder={'Enter Book Title'}/>
                   <ErrorMessage name="title" component="div" className="text-danger"/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Author Name</Label>
-                  <Field className="form-control mb-3" type={"text"} name="author" placeholder={'Enter Author Name'}/>
+                </Box>
+                <Box sx={{marginTop: '1.5rem'}}>
+                  <Field as={TextField} label={'Author Name'} className="form-control mb-3" type={"text"}
+                         name="author"
+                         placeholder={'Enter Author Name'}/>
                   <ErrorMessage name="author" component="div" className="text-danger"/>
 
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Book Description</Label>
+                </Box>
+                <Box sx={{marginTop: '1.5rem'}}>
                   <Field name="description" component={QuillEditor}/>
                   <ErrorMessage name="description" component="div" className="text-danger"/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Select a Genre</Label>
+                </Box>
+                <Box sx={{marginTop: '1.5rem'}}>
+                  <FormControl fullWidth>
+                    <InputLabel>
+                      Select a Genre
+                    </InputLabel>
+                    <Field as={Select} label={'Select a Genre'} className="form-control mb-3" name="genre">
+                      {genre.map((item, index) => (
+                        <MenuItem value={item._id} key={index}>{item.name}</MenuItem>
+                      ))}
+                    </Field>
+                  </FormControl>
 
-                  <Field className="form-control mb-3" as="select" name="genre">
-                    <option value="">Select a Genre</option>
-                    {genre.map((item, index) => (
-                      <option value={item._id} key={index}>{item.name}</option>
-                    ))}
-                  </Field>
                   <ErrorMessage name="genre" component="div" className="text-danger"/>
 
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Published Year</Label>
-                  <Field className="form-control mb-3" type={"number"} name="publishedYear"
+                </Box>
+                <Box sx={{marginTop: '1.5rem'}}>
+                  <Field as={TextField} label={'Published Year'} className="form-control mb-3" type={"number"}
+                         name="publishedYear"
                          placeholder={'Enter Published Year'}/>
                   <ErrorMessage name="publishedYear" component="div" className="text-danger"/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Book Quantity</Label>
-                  <Field className="form-control" min={0} type={"number"} name="quantity"
+                </Box>
+                <Box sx={{marginTop: '1.5rem'}}>
+                  <Field as={TextField} label={'Book Quantity'} className="form-control" min={0} type={"number"}
+                         name="quantity"
                          placeholder={'Enter Book Quantity'}/>
                   <ErrorMessage name="quantity" component="div" className="text-danger"/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Current Image</Label><br/>
+                </Box>
+                <Box sx={{marginTop: '1.5rem'}}>
+                  <InputLabel>Book Image</InputLabel>
                   <img src={`http://localhost:5000${book.image}`} alt={"book"} className={"mw-100 h-auto"}/>
-                </div>
-                <div className={"mt-3"}>
-                  <Label>Update Book Image</Label>
-                  <Input
+                </Box>
+                <Box sx={{marginTop: '1.5rem'}}>
+                  <InputLabel>Update Book Image</InputLabel>
+                  <input
                     className="form-control"
                     type="file"
                     name="image"
@@ -153,13 +156,13 @@ const Update = () => {
                   />
                   <ErrorMessage name="image" component="div" className="text-danger"/>
 
-                </div>
-                <Button className={"mt-4"} color={"primary"} type={"submit"}>Update Book</Button>
+                </Box>
+                <Button sx={{marginTop: '1.5rem'}} variant="contained" type={"submit"}>Update Book</Button>
               </Form>
           )}
         </Formik>
       </Container>
-    </div>
+    </Box>
   );
 };
 

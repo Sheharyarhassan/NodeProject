@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import * as Yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {Button, Container} from "reactstrap";
 import {toast, ToastContainer} from "react-toastify";
 import PageLoader from "../../../Components/PageLoader";
 import api from "../../../ApiHandle/api";
 import {useNavigate, useParams} from "react-router-dom";
+import {Box, Button, Container, TextField} from "@mui/material";
 
 function Update() {
   const {id} = useParams();
@@ -47,33 +47,38 @@ function Update() {
     }
   }
   return (
-    <div className={'pt-5'}>
+    <Box>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={isLoading}/>
-      <Container className={"px-lg-5"}>
+      <Container fixed sx={{padding: '1.5rem'}}>
         <Formik enableReinitialize={true} initialValues={initialValues} validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
-          <Form className={"p-lg-5 p-3 rounded-3"}>
+          <Form>
             <div className={"d-flex align-items-center justify-content-center"}>
               <h4 className={"fw-bold text-center"}>Update User</h4>
             </div>
-            <div className="my-3">
-              <Field className={'form-control'} type={'text'} name={'name'} placeholder={'Enter Name'}/>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth className={'form-control'} type={'text'} name={'name'}
+                     placeholder={'Enter Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'name'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field className={'form-control'} type={'text'} name={'userName'} placeholder={'Enter User Name'}/>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth className={'form-control'} type={'text'} name={'userName'}
+                     placeholder={'Enter User Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'userName'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field className={'form-control'} type={'email'} name={'email'} placeholder={'Enter Email'}/>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Field as={TextField} fullWidth className={'form-control'} type={'email'} name={'email'}
+                     placeholder={'Enter Email'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'email'}/>
-            </div>
-            <Button color={'primary'} type={'submit'}>Submit</Button>
+            </Box>
+            <Box sx={{marginTop: '1.5rem'}}>
+              <Button variant='contained' type={'submit'}>Submit</Button>
+            </Box>
           </Form>
         </Formik>
       </Container>
-    </div>
+    </Box>
   );
 }
 

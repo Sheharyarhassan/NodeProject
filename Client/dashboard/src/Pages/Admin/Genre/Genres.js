@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import bgCard from '../../../Assets/Images/login-bg.png'
 import api from "../../../ApiHandle/api";
 import PageLoader from "../../../Components/PageLoader";
 import {Link} from "react-router-dom";
+import {Card, CardContent, Container, Grid, Typography} from "@mui/material";
 
 const Genres = () => {
   const [loading, setLoading] = useState(true);
@@ -21,27 +21,27 @@ const Genres = () => {
     })
   }, [])
   return (
-    <Container>
-      <h3>Categories</h3>
+    <Container fluid sx={{padding: '1.5rem'}}>
+      <Typography sx={{margin: '2rem 0'}} component={'h1'} variant={'h5'}>Categories</Typography>
       <PageLoader isLoading={loading}/>
-      <Row className={'g-3'}>
+      <Grid container spacing={2}>
         {data && data.length > 0 ?
           data.map((genre, index) => (
-            <Col md={4} sm={6} key={index}>
-              <Link className={'text-decoration-none'} to={`/genres/${genre?._id}`}>
+            <Grid item size={{md: 4, sm: 6}} key={index}>
+              <Link style={{textDecoration: 'none'}} to={`/genres/${genre?._id}`}>
                 <Card style={bgStyle}>
-                  <CardBody className={'d-flex align-items-center justify-content-center'}>
+                  <CardContent sx={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <h5 className={'text-light'}>{genre?.name}</h5>
-                  </CardBody>
+                  </CardContent>
                 </Card>
               </Link>
-            </Col>
+            </Grid>
           ))
           :
           <h5>No Categories Found</h5>
         }
 
-      </Row>
+      </Grid>
     </Container>
   );
 };

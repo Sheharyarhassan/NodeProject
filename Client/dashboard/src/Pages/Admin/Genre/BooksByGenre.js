@@ -21,7 +21,7 @@ const BooksByGenre = () => {
         <PageLoader isLoading={loading}/>
         {data && data?.length > 0 ?
           data?.map((book, index) => (
-            <Grid item size={{md: 4, sm: 6}} key={index}>
+            <Grid size={{md: 4, sm: 6}} key={index}>
               <Link style={{textDecoration: 'none'}} to={`/book/${book._id}`}>
                 <Card sx={{height: '100%'}}>
                   <CardMedia sx={{height: 550, objectFit: 'cover'}}

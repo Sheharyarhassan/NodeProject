@@ -27,7 +27,7 @@ const Genres = () => {
       <Grid container spacing={2}>
         {data && data.length > 0 ?
           data.map((genre, index) => (
-            <Grid item size={{md: 4, sm: 6}} key={index}>
+            <Grid size={{md: 4, sm: 6}} key={index}>
               <Link style={{textDecoration: 'none'}} to={`/genres/${genre?._id}`}>
                 <Card style={bgStyle}>
                   <CardContent sx={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

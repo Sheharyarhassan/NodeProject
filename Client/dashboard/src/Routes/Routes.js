@@ -17,6 +17,7 @@ import Genres from "../Pages/Admin/Genre/Genres";
 import BooksByGenre from "../Pages/Admin/Genre/BooksByGenre";
 import UserProfile from "../Pages/Admin/UserProfile";
 import ChangePassword from "../Pages/ChangePassword";
+import Cart from "../Pages/Admin/Cart";
 
 const protectedRoutes = [
   {path: '/dashboard', component: <Home/>},
@@ -43,5 +44,6 @@ const publicRoutes = [
   {path: '/book/:id', component: <BookDetails/>},
   {path: '/genres', component: <Genres/>},
   {path: '/genres/:genre', component: <BooksByGenre/>},
+  {path: '/cart', component: <Cart/>},
 ]
 export {protectedRoutes, publicRoutes}

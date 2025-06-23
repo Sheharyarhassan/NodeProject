@@ -27,7 +27,7 @@ app.use(cors({
 app.use((req, res, next) => {
   if (!req.cookies.guestId) {
     const uuid = crypto.randomUUID();
-    res.cookie('guestId', uuid, {httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000});
+    res.cookie('guestId', uuid, {httpOnly: false, maxAge: 7 * 24 * 60 * 60 * 1000});
   }
   next();
 });

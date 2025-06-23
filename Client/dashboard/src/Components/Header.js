@@ -17,6 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import api from "../ApiHandle/api";
+import Cookies from "js-cookie";
 
 function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -26,7 +27,12 @@ function Header() {
   const [userType, setUserType] = useState(null);
   const [user, setUser] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
+  const [guestId, setGuestId] = useState(null);
 
+  useEffect(() => {
+    const id = Cookies.get('guestId');
+    setGuestId(id);
+  }, []);
   const loadAuthData = () => {
     const storedToken = localStorage.getItem("token");
     const storedUserType = localStorage.getItem("userType");
@@ -53,6 +59,10 @@ function Header() {
       api.get(`http://localhost:5000/api/getCart/${userDetails.id}`).then((res) => {
         setCart(res.data);
       });
+    } else if (guestId && guestId) {
+      api.get(`http://localhost:5000/api/getCart/${guestId}`).then((res) => {
+        setCart(res.data);
+      });
     }
   }, [userDetails]);
 
@@ -66,27 +76,25 @@ function Header() {
 
   return (
     <AppBar position="static" color="default" sx={{px: {lg: 4}}}>
-      <Toolbar>
-        <IconButton
-          edge="start"
-          color="inherit"
-          onClick={() => setDrawerOpen(true)}
-          sx={{display: {md: "none"}, mr: 2}}
-        >
-          <MenuIcon/>
-        </IconButton>
-
-        <Typography
-          variant="h6"
-          component="a"
-          href="/"
-          sx={{flexGrow: 1, textDecoration: "none", color: "inherit"}}
-        >
-          Books
-        </Typography>
-
-        {/* Admin Menus */}
+      <Toolbar sx={{justifyContent: 'space-between', alignItems: 'center'}}>
         <Box sx={{display: {xs: "none", md: "flex"}, gap: 2}}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={() => setDrawerOpen(true)}
+            sx={{display: {md: "none"}, mr: 2}}
+          >
+            <MenuIcon/>
+          </IconButton>
+
+          <Typography
+            variant="h6"
+            component="a"
+            href="/"
+            sx={{mb: 0.5, alignSelf: 'center', marginRight: '1rem', textDecoration: "none", color: "inherit"}}
+          >
+            Books
+          </Typography>
           {token && userType?.toLowerCase() === "admin" && (
             <>
               {/* Book Dropdown */}
@@ -155,8 +163,7 @@ function Header() {
           <Button href="/genres">Categories</Button>
         </Box>
 
-        {/* Right side: Cart / Login / Profile */}
-        <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
+        <Box sx={{display: "flex", justifyContent: 'end', alignItems: "center", gap: 2}}>
           {token ? (
             <>
               <Box>

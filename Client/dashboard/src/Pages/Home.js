@@ -21,7 +21,7 @@ const Home = () => {
       <Grid container spacing={3} sx={{justifyContent: 'Evenly', alignItems: 'center'}}>
         {loading
           ? [...Array(8)].map((_, index) => (
-            <Grid item key={index} lg={3} md={6} sm={12}>
+            <Grid key={index} size={{lg: 4, md: 6, sm: 12}}>
               <Card>
                 <Skeleton height={250}/>
                 <CardContent>
@@ -36,7 +36,7 @@ const Home = () => {
             </Grid>
           ))
           : books.map((book, index) => (
-            <Grid item key={index} size={{lg: 4, md: 6, sm: 12}}>
+            <Grid key={index} size={{lg: 4, md: 6, sm: 12}}>
               <Link underline={'none'} href={`/book/${book._id}`}>
                 <Card className={'h-100'}>
                   <CardMedia sx={{height: '500px', maxWidth: '100%', objectFit: 'cover'}}

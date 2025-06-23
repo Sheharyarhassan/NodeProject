@@ -71,13 +71,13 @@ const BookDetails = () => {
       <ToastContainer autoClose={2000}/>
       <Container maxWidth="xl">
         <Grid container spacing={2} sx={{marginTop: '1.5rem'}}>
-          <Grid item size={{lg: 4, md: 6, xs: 12}}>
+          <Grid size={{lg: 4, md: 6, xs: 12}}>
 
             <img src={'http://localhost:5000' + data?.image} alt={'BookImage'}
                  style={{maxWidth: '100%', height: 'auto'}}/>
 
           </Grid>
-          <Grid item size={{lg: 8, md: 6, xs: 12}}>
+          <Grid size={{lg: 8, md: 6, xs: 12}}>
             <Card>
               <CardContent>
                 <h3>{data?.title}</h3>

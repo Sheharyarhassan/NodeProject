@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import api from "../../../ApiHandle/api";
 import PageLoader from "../../../Components/PageLoader";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {
   Box,
   Container,
+  IconButton,
   styled,
   Table,
   TableBody,
@@ -13,10 +14,12 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     api.get('http://localhost:5000/api/users/getAll?type=user').then((res) => {
       setUsers(res.data);
@@ -62,8 +65,11 @@ const Index = () => {
                 <StyledTableCell>{user.name}</StyledTableCell>
                 <StyledTableCell>{user.userName}</StyledTableCell>
                 <StyledTableCell>{user.email}</StyledTableCell>
-                <StyledTableCell><Link to={`/user/update/${user.id}`}><i
-                  className={'bx bx-pencil'}></i></Link></StyledTableCell>
+                <StyledTableCell>
+                  <IconButton onClick={() => navigate(`/user/update/${user.id}`)}>
+                    <EditIcon fontSize='small' color='primary'/>
+                  </IconButton>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

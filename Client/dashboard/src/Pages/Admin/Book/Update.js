@@ -100,12 +100,12 @@ const Update = () => {
           {(({setFieldValue}) =>
               <Form>
                 <Box sx={{marginTop: '1.5rem'}}>
-                  <Field as={TextField} label={'Book Title'} className="form-control" type={"text"} name="title"
+                  <Field as={TextField} label={'Book Title'} fullWidth type={"text"} name="title"
                          placeholder={'Enter Book Title'}/>
                   <ErrorMessage name="title" component="div" className="text-danger"/>
                 </Box>
                 <Box sx={{marginTop: '1.5rem'}}>
-                  <Field as={TextField} label={'Author Name'} className="form-control mb-3" type={"text"}
+                  <Field as={TextField} label={'Author Name'} fullWidth type={"text"}
                          name="author"
                          placeholder={'Enter Author Name'}/>
                   <ErrorMessage name="author" component="div" className="text-danger"/>
@@ -120,7 +120,7 @@ const Update = () => {
                     <InputLabel>
                       Select a Genre
                     </InputLabel>
-                    <Field as={Select} label={'Select a Genre'} className="form-control mb-3" name="genre">
+                    <Field as={Select} label={'Select a Genre'} fullWidth name="genre">
                       {genre.map((item, index) => (
                         <MenuItem value={item._id} key={index}>{item.name}</MenuItem>
                       ))}
@@ -131,13 +131,13 @@ const Update = () => {
 
                 </Box>
                 <Box sx={{marginTop: '1.5rem'}}>
-                  <Field as={TextField} label={'Published Year'} className="form-control mb-3" type={"number"}
+                  <Field as={TextField} label={'Published Year'} fullWidth type={"number"}
                          name="publishedYear"
                          placeholder={'Enter Published Year'}/>
                   <ErrorMessage name="publishedYear" component="div" className="text-danger"/>
                 </Box>
                 <Box sx={{marginTop: '1.5rem'}}>
-                  <Field as={TextField} label={'Book Quantity'} className="form-control" min={0} type={"number"}
+                  <Field as={TextField} label={'Book Quantity'} fullWidth min={0} type={"number"}
                          name="quantity"
                          placeholder={'Enter Book Quantity'}/>
                   <ErrorMessage name="quantity" component="div" className="text-danger"/>

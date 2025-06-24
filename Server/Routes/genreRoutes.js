@@ -120,9 +120,6 @@ router.get("/genre/getAllActive", getActiveGenres); // No auth required
  *               name:
  *                 type: string
  *                 example: "Updated Genre Name"
- *               description:
- *                 type: string
- *                 example: "Updated description for the genre"
  *     responses:
  *       200:
  *         description: Genre updated successfully

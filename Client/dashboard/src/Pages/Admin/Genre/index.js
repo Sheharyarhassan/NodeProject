@@ -4,6 +4,7 @@ import api from "../../../ApiHandle/api"
 import {
   Chip,
   Container,
+  IconButton,
   styled,
   Table,
   TableBody,
@@ -13,10 +14,15 @@ import {
   TableRow,
   Typography
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
+import {useNavigate} from "react-router-dom";
 
 function Index() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -87,14 +93,33 @@ function Index() {
                   <StyledTableCell>
                     {item.validFlag ?
                       <Chip color="success" label={'Active'}/> :
-                      <Chip color="danger" label={'Disabled'}/>
+                      <Chip sx={{backgroundColor: 'red', color: 'white'}} label={'Disabled'}/>
                     }
                   </StyledTableCell>
                   <StyledTableCell className={'text-center'}>{item.validFlag ?
-                    <i role={"button"} className={"bx bx-trash text-danger"}
-                       onClick={() => updateStatus(true, item._id)}></i>
-                    : <i role={"button"} className={"bx bx-check text-success"}
-                         onClick={() => updateStatus(false, item._id)}></i>}
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => updateStatus(true, item._id)}
+                      size="small"
+                      sx={{color: 'red'}}
+                    >
+                      <DeleteIcon fontSize="small"/>
+                    </IconButton>
+                    : <IconButton
+                      aria-label="check"
+                      onClick={() => updateStatus(false, item._id)}
+                      size="small"
+                      color="success"
+                    >
+                      <CheckIcon fontSize='small'/>
+                    </IconButton>
+                  }<IconButton
+                    aria-label="check"
+                    size="small"
+                    color="primary"
+                    onClick={() => navigate(`/genre/${item._id}`)}
+                  ><EditIcon fontSize="small"/>
+                  </IconButton>
                   </StyledTableCell>
                 </StyledTableRow>
               ))

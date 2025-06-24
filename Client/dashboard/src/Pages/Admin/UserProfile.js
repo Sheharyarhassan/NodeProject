@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {Button, Container, TextField} from "@mui/material";
+import {Box, Button, Container, TextField} from "@mui/material";
 
 const UserProfile = () => {
   const storedUser = localStorage.getItem("userDetails") && JSON.parse(localStorage.getItem("userDetails"));
@@ -48,7 +48,7 @@ const UserProfile = () => {
     }
   }
   return (
-    <div>
+    <Box>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={loading}/>
       <Container fixed className={'py-4'}>
@@ -56,25 +56,25 @@ const UserProfile = () => {
         <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
           <Form>
-            <div className="mb-3">
-              <Field as={TextField} className={'form-control'} type={'text'} name={'name'} placeholder={'Enter Name'}/>
+            <Box sx={{mb: 2}}>
+              <Field as={TextField} fullWidth type={'text'} name={'name'} placeholder={'Enter Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'name'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field as={TextField} className={'form-control'} type={'text'} name={'userName'}
+            </Box>
+            <Box sx={{mb: 2}}>
+              <Field as={TextField} fullWidth type={'text'} name={'userName'}
                      placeholder={'Enter User Name'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'userName'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field as={TextField} className={'form-control'} type={'email'} name={'email'}
+            </Box>
+            <Box sx={{mb: 2}}>
+              <Field as={TextField} fullWidth type={'email'} name={'email'}
                      placeholder={'Enter Email'}/>
               <ErrorMessage className={'text-danger'} component={'div'} name={'email'}/>
-            </div>
+            </Box>
             <Button variant='contained' type={'submit'}>Submit</Button>
           </Form>
         </Formik>
       </Container>
-    </div>
+    </Box>
   );
 };
 

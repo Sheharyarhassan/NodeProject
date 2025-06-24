@@ -16,7 +16,7 @@ const Home = () => {
     })
   }, [])
   return (
-    <Container fixed>
+    <Container sx={{py: 3}} fixed>
       <h5 className={'pt-3'}>All Books</h5>
       <Grid container spacing={3} sx={{justifyContent: 'Evenly', alignItems: 'center'}}>
         {loading
@@ -39,7 +39,7 @@ const Home = () => {
             <Grid key={index} size={{lg: 4, md: 6, sm: 12}}>
               <Link underline={'none'} href={`/book/${book._id}`}>
                 <Card className={'h-100'}>
-                  <CardMedia sx={{height: '500px', maxWidth: '100%', objectFit: 'cover'}}
+                  <CardMedia component={'img'} sx={{height: '500px', maxWidth: '100%', objectFit: 'cover'}}
                              image={`http://localhost:5000${book.image}`}
                              title={book.title}/>
                   <CardContent className={"d-flex justify-content-between"}>

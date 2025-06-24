@@ -5,7 +5,7 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import PageLoader from "../Components/PageLoader";
 import {toast, ToastContainer} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import {Button, Container, TextField} from "@mui/material";
+import {Box, Button, Container, TextField} from "@mui/material";
 
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,24 +57,24 @@ const ChangePassword = () => {
       <ToastContainer autoClose={2000}/>
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
         <Form>
-          <div className={'mb-3'}>
-            <Field as={TextField} className={'form-control'} name={'oldPassword'} type={'password'}
+          <Box sx={{mb: 2}}>
+            <Field as={TextField} fullWidth name={'oldPassword'} type={'password'}
                    placeholder={'Enter Old password'}/>
             <ErrorMessage className={'text-danger'} name={'oldPassword'} component={'div'}/>
-          </div>
-          <div className={'mb-3'}>
-            <Field as={TextField} className={'form-control'} name={'newPassword'} type={'password'}
+          </Box>
+          <Box sx={{mb: 2}}>
+            <Field as={TextField} fullWidth name={'newPassword'} type={'password'}
                    placeholder={'Enter New password'}/>
             <ErrorMessage className={'text-danger'} name={'newPassword'} component={'div'}/>
-          </div>
-          <div className={'mb-3'}>
-            <Field as={TextField} className={'form-control'} name={'confirmPassword'} type={'password'}
+          </Box>
+          <Box sx={{mb: 2}}>
+            <Field as={TextField} fullWidth name={'confirmPassword'} type={'password'}
                    placeholder={'Confirm password'}/>
             <ErrorMessage className={'text-danger'} name={'confirmPassword'} component={'div'}/>
-          </div>
-          <div className={'mb-3'}>
+          </Box>
+          <Box sx={{mb: 2}}>
             <Button variant='contained' type={'submit'}>Submit</Button>
-          </div>
+          </Box>
         </Form>
       </Formik>
     </Container>

@@ -110,7 +110,6 @@ function Header() {
                   <MenuItem onClick={() => handleMenuClose("book")} component="a" href="/book">
                     View All
                   </MenuItem>
-                  <MenuItem divider/>
                   <MenuItem onClick={() => handleMenuClose("book")} component="a" href="/book/add">
                     Add Book
                   </MenuItem>
@@ -130,7 +129,6 @@ function Header() {
                   <MenuItem component="a" href="/genre">
                     View All
                   </MenuItem>
-                  <MenuItem divider/>
                   <MenuItem component="a" href="/genre/add">
                     Add Genre
                   </MenuItem>
@@ -152,7 +150,6 @@ function Header() {
                   <MenuItem component="a" href="/admin/view">
                     View All
                   </MenuItem>
-                  <MenuItem divider/>
                   <MenuItem component="a" href="/admin/add">
                     Add Admin
                   </MenuItem>
@@ -178,7 +175,6 @@ function Header() {
                   <MenuItem component="a" href="/profile">
                     Profile
                   </MenuItem>
-                  <MenuItem divider/>
                   <MenuItem component="a" href="/changepass">
                     Change Password
                   </MenuItem>

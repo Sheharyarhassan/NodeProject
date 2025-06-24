@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import api from '../../../ApiHandle/api'
 import PageLoader from "../../../Components/PageLoader";
-import {Link} from "react-router-dom";
 import {
   Chip,
   Container,
+  IconButton,
   styled,
   Table,
   TableBody,
@@ -14,9 +14,13 @@ import {
   TableRow,
   Typography
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
+import {useNavigate} from "react-router-dom";
 
 function Index() {
-
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchData = async () => {
@@ -92,11 +96,17 @@ function Index() {
                   <Chip label="Disabled" color="success"/>}
                 </StyledTableCell>
                 <StyledTableCell>{item.validFlag ?
-                  <i className={'bx bx-trash text-danger'} role={'button'}
-                     onClick={() => updateStatus(true, item._id)}></i> :
-                  <i className={'bx bx-check text-success'} role={'button'}
-                     onClick={() => updateStatus(false, item._id)}></i>}
-                  <Link to={`/book/update/${item._id}`}><i className={'bx bx-pencil text-primary'}></i></Link>
+                  <IconButton
+                    onClick={() => updateStatus(true, item._id)}>
+                    <DeleteIcon sx={{color: 'red'}} fontSize='small'/>
+                  </IconButton> :
+                  <IconButton
+                    onClick={() => updateStatus(false, item._id)}>
+                    <CheckIcon color="success" fontSize='small'/>
+                  </IconButton>}
+                  <IconButton onClick={() => navigate(`/book/update/${item._id}`)}>
+                    <EditIcon color='primary' fontSize='small'/>
+                  </IconButton>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

@@ -18,6 +18,7 @@ import BooksByGenre from "../Pages/Admin/Genre/BooksByGenre";
 import UserProfile from "../Pages/Admin/UserProfile";
 import ChangePassword from "../Pages/ChangePassword";
 import Cart from "../Pages/Admin/Cart";
+import UpdateGenre from "../Pages/Admin/Genre/Update";
 
 const protectedRoutes = [
   {path: '/dashboard', component: <Home/>},
@@ -27,6 +28,7 @@ const protectedRoutes = [
   {path: '/book/add', component: <AddBook/>},
   {path: '/book/update/:id', component: <UpdateBook/>},
   {path: '/genre', component: <Genre/>},
+  {path: '/genre/:id', component: <UpdateGenre/>},
   {path: '/genre/add', component: <AddGenre/>},
   {path: '/user', component: <User/>},
   {path: '/user/update/:id', component: <UpdateUser/>},

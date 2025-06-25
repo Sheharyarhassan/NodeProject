@@ -5,6 +5,7 @@ import {
   Chip,
   Container,
   IconButton,
+  Pagination,
   styled,
   Table,
   TableBody,
@@ -22,11 +23,13 @@ import {useNavigate} from "react-router-dom";
 function Index() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const navigate = useNavigate();
   const fetchData = async () => {
     setLoading(true);
     try {
-      await api.get("http://localhost:5000/api/genre/getAll").then(data => {
+      await api.get(`http://localhost:5000/api/genre/getAll?page=${currentPage}&limit=${limit}`).then(data => {
         setData(data.data)
       }).catch((err) => {
         console.log(err)
@@ -52,14 +55,11 @@ function Index() {
   }
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage]);
   const StyledTableRow = styled(TableRow)(({theme}) => ({
     ['&:nth-of-type(odd)']: {
       backgroundColor: theme.palette.action.hover
     },
-    ['&:last-child td,&:last-child th']: {
-      border: 0
-    }
   }))
   const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -70,6 +70,9 @@ function Index() {
       fontSize: 14,
     },
   }))
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  }
   return (
     <div>
       <PageLoader isLoading={loading}/>
@@ -86,8 +89,8 @@ function Index() {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {data && data?.length > 0 ? (
-              data.map((item, index) => (
+            {data && data.genres?.length > 0 ? (
+              data?.genres?.map((item, index) => (
                 <StyledTableRow key={index}>
                   <StyledTableCell>{item.name}</StyledTableCell>
                   <StyledTableCell>
@@ -130,6 +133,7 @@ function Index() {
             )}
           </TableBody>
         </Table>
+        <Pagination sx={{mt: 2}} color={'primary'} count={data?.totalPages} onChange={handlePageChange}/>
       </Container>
     </div>
   );

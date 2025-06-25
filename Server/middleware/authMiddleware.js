@@ -4,17 +4,13 @@ const {Signup} = require('../models/userModels');
 const authMiddleware = async (req, res, next) => {
   const token = req.header('Authorization');
   if (!token) return res.status(401).json({message: 'Access denied. No token provided.'});
-
   const accessToken = token.replace('Bearer ', '');
-
   try {
-    // Verify Access Token
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
-    req.user = decoded; // Attach user data
-    await updateLastActive(decoded.userId); // Update last activity
+    req.user = decoded;
+    await updateLastActive(decoded.userId);
     return next();
   } catch (err) {
-    // If token is expired, try refreshing it
     if (err.name === 'TokenExpiredError') {
       return refreshAccessToken(req, res, next);
     }

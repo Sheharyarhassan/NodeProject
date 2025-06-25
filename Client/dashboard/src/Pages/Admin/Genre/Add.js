@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {ErrorMessage, Field, Form as FormikForm, Formik} from "formik";
 import * as Yup from "yup";
 import {toast, ToastContainer} from "react-toastify";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import PageLoader from "../../../Components/PageLoader";
 import {Box, Button, Container, TextField} from "@mui/material";
+import api from "../../../ApiHandle/api";
 
 function Add() {
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ function Add() {
   const handleSubmit = async (values, {resetForm}) => {
     setLoading(true)
     try {
-      const response = await axios.post('http://localhost:5000/api/genre/Add', values,)
+      const response = await api.post('http://localhost:5000/api/genre/Add', values)
       if (response.status === 201) {
         resetForm();
         setLoading(false);

@@ -89,7 +89,7 @@ const userLogin = async (req, res) => {
   const {error} = validateLogin(req.body);
   if (error) return res.status(400).send('Error: ' + error)
   try {
-    const checkUser = await Signup.findOne({userName: req.body.userName}).populate('userType', 'name');
+    const checkUser = await Signup.findOne({userName: req.body.userName, validFlag: true}).populate('userType', 'name');
     if (!checkUser) {
       return res.status(404).send("Error: User Name not found")
     }
@@ -240,23 +240,29 @@ const changePassword = async (req, res) => {
   }
 }
 const getAllUsers = async (req, res) => {
-  const {type} = req.query;
-  const validTypes = ['admin', 'user']
-  if (!type) return res.status(400).send('Type is required');
-  if (!validTypes.includes(type.toLowerCase())) {
-    return res.status(400).send("Invalid type. Allowed types are 'user' or 'admin'");
-  }
+  const type = req.query.type;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
   try {
-    const users = await Signup.find().populate('userType', 'name');
-    console.log(users)
-    const filteredUsers = users?.filter(user => user.userType?.name.toLowerCase() === type.toLowerCase());
-    const userNames = filteredUsers.map(user => ({
+    const userTypeDoc = await userType.findOne({name: type.charAt(0).toUpperCase() + type.slice(1)});
+    if (!userTypeDoc) return res.status(404).send('User type not found');
+    const users = await Signup.find({userType: userTypeDoc._id})
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate('userType', 'name');
+    const totalRecords = await Signup.countDocuments({userType: userTypeDoc._id});
+    const userNames = users.map(user => ({
       id: user._id,
       name: user.name,
       userName: user.userName,
       email: user.email
     }));
-    res.status(200).send(userNames);
+    res.status(200).json({
+      totalRecords: totalRecords,
+      currentPage: page,
+      totalPages: Math.ceil(totalRecords / limit),
+      userNames
+    });
   } catch (err) {
     res.status(500).send("Error: " + err)
   }

@@ -5,6 +5,7 @@ import {
   Chip,
   Container,
   IconButton,
+  Pagination,
   styled,
   Table,
   TableBody,
@@ -21,12 +22,19 @@ import {useNavigate} from "react-router-dom";
 
 function Index() {
   const navigate = useNavigate();
+  const [perPage, setPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
+  const [title, setTitle] = useState('title');
+  const [sort, setSort] = useState('asc');
   const [loading, setLoading] = useState(false);
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  }
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await api.get('http://localhost:5000/api/book/GetAll', {}, {isAdmin: true});
+      const response = await api.get(`http://localhost:5000/api/book/GetAll?page=${currentPage}&limit=${perPage}&title=${title}&sortOrder=${sort}`, {}, {isAdmin: true});
       setData(response.data);
     } catch (error) {
       console.log(error);
@@ -48,7 +56,7 @@ function Index() {
   }
   useEffect(() => {
     fetchData();
-  }, [])
+  }, [currentPage, title, sort])
   const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -62,10 +70,21 @@ function Index() {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
     },
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
   }));
+  const handleSortChange = (event) => {
+    const clickedHeader = event.target.textContent.trim().toLowerCase();
+    const fieldMap = {
+      'title': 'title',
+      'author': 'author',
+      'published year': 'publishedYear',
+    };
+
+    const field = fieldMap[clickedHeader];
+    if (field) {
+      setTitle(field);
+      setSort(prev => (prev === 'asc' ? 'desc' : 'asc'));
+    }
+  }
   return (
     <div>
       <PageLoader isLoading={loading}/>
@@ -76,16 +95,16 @@ function Index() {
         <Table>
           <TableHead>
             <StyledTableRow>
-              <StyledTableCell>Title</StyledTableCell>
-              <StyledTableCell>Author</StyledTableCell>
-              <StyledTableCell>Published Year</StyledTableCell>
+              <StyledTableCell sx={{cursor: 'pointer'}} onClick={handleSortChange}>Title</StyledTableCell>
+              <StyledTableCell sx={{cursor: 'pointer'}} onClick={handleSortChange}>Author</StyledTableCell>
+              <StyledTableCell sx={{cursor: 'pointer'}} onClick={handleSortChange}>Published Year</StyledTableCell>
               <StyledTableCell>Genre</StyledTableCell>
               <StyledTableCell>Status</StyledTableCell>
               <StyledTableCell>Action</StyledTableCell>
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {data && data.map((item, index) => (
+            {data && data?.books?.map((item, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell>{item.title}</StyledTableCell>
                 <StyledTableCell>{item.author}</StyledTableCell>
@@ -112,6 +131,7 @@ function Index() {
             ))}
           </TableBody>
         </Table>
+        <Pagination sx={{mt: 2}} count={data?.totalPages} page={currentPage} onChange={handleChange} color="primary"/>
       </Container>
     </div>
   );

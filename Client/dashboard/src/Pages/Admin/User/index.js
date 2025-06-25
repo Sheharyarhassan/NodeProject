@@ -6,6 +6,7 @@ import {
   Box,
   Container,
   IconButton,
+  Pagination,
   styled,
   Table,
   TableBody,
@@ -18,17 +19,19 @@ import EditIcon from "@mui/icons-material/Edit";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    api.get('http://localhost:5000/api/users/getAll?type=user').then((res) => {
+    api.get(`http://localhost:5000/api/users/getAll?type=user&page=${currentPage}&limit=${limit}`).then((res) => {
       setUsers(res.data);
       setLoading(false);
     }).catch((err) => {
       console.log(err);
       setLoading(false);
     });
-  }, []);
+  }, [currentPage]);
   const StyledTableRow = styled(TableRow)(({theme}) => ({
     ['&:nth-type-of(odd)']: {
       backgroundColor: theme.palette.action.hover,
@@ -46,6 +49,9 @@ const Index = () => {
       fontSize: '14px'
     }
   }))
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  }
   return (
     <Box variant={'section'}>
       <PageLoader isLoading={loading}/>
@@ -60,7 +66,7 @@ const Index = () => {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {users.map((user, index) => (
+            {users?.userNames?.map((user, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell>{user.name}</StyledTableCell>
                 <StyledTableCell>{user.userName}</StyledTableCell>
@@ -74,6 +80,7 @@ const Index = () => {
             ))}
           </TableBody>
         </Table>
+        <Pagination sx={{mt: 2}} color='primary' count={users?.totalPages} onChange={handlePageChange}/>
       </Container>
     </Box>
   );

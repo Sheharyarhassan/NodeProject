@@ -7,7 +7,7 @@ import PageLoader from "../Components/PageLoader";
 import book from "../Assets/Images/Book2.png";
 import api from "../ApiHandle/api";
 import {useNavigate} from "react-router-dom";
-import {Button, Container, TextField} from "@mui/material";
+import {Box, Button, Container, styled, TextField} from "@mui/material";
 
 function Register() {
   const [isLoading, setIsLoading] = useState(false);
@@ -59,50 +59,54 @@ function Register() {
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
     minHeight: '100vh',
+    paddingTop: '3rem',
   }
+  const ErrorMessageRed = styled(ErrorMessage)`color: red`
   return (
-    <div style={mainStyle} className={'pt-5'}>
+    <Box style={mainStyle}>
       <ToastContainer autoClose={2000}/>
       <PageLoader isLoading={isLoading}/>
       <Container fixed sx={{padding: '0 1.5rem'}}>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-          <Form style={{backgroundColor: 'rgba(0,0,0,0.6)'}} className={"p-lg-5 p-3 rounded-3"}>
-            <div className={"d-flex align-items-center justify-content-center"}>
+          <Form style={{backgroundColor: 'rgba(255,255,255,0.8)', padding: '3rem'}}>
+            <Box display={'flex'} alignSelf={'center'} justifyContent={'center'}>
               <img src={book} alt={"book"} className={"mw-100 h-auto"}/>
               <h4 className={"fw-bold text-center text-white"}>User Register</h4>
               <img src={book} alt={"book"} className={"mw-100 h-auto"}/>
-            </div>
-            <div className="my-3">
-              <Field as={TextField} label={'Name'} className={'form-control'} type={'text'} name={'name'}
+            </Box>
+            <Box sx={{my: 3}}>
+              <Field as={TextField} fullWidth label={'Name'} className={'form-control'} type={'text'} name={'name'}
                      placeholder={'Enter Name'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'name'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field as={TextField} label={'User Name'} className={'form-control'} type={'text'} name={'userName'}
+              <ErrorMessageRed component={'div'} name={'name'}/>
+            </Box>
+            <Box sx={{my: 3}}>
+              <Field as={TextField} fullWidth label={'User Name'} className={'form-control'} type={'text'}
+                     name={'userName'}
                      placeholder={'Enter User Name'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'userName'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field as={TextField} label={'Email'} className={'form-control'} type={'email'} name={'email'}
+              <ErrorMessageRed component={'div'} name={'userName'}/>
+            </Box>
+            <Box sx={{my: 3}}>
+              <Field as={TextField} fullWidth label={'Email'} className={'form-control'} type={'email'} name={'email'}
                      placeholder={'Enter Email'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'email'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field as={TextField} label={'Password'} className={'form-control'} type={'password'} name={'password'}
+              <ErrorMessageRed component={'div'} name={'email'}/>
+            </Box>
+            <Box sx={{my: 3}}>
+              <Field as={TextField} fullWidth label={'Password'} className={'form-control'} type={'password'}
+                     name={'password'}
                      placeholder={'Enter Password'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'password'}/>
-            </div>
-            <div className={'mb-3'}>
-              <Field as={TextField} label={'Confirm Passowrd'} className={'form-control'} type={'password'}
+              <ErrorMessageRed component={'div'} name={'password'}/>
+            </Box>
+            <Box sx={{my: 3}}>
+              <Field as={TextField} fullWidth label={'Confirm Passowrd'} className={'form-control'} type={'password'}
                      name={'confirmPassword'}
                      placeholder={'Confirm Password'}/>
-              <ErrorMessage className={'text-danger'} component={'div'} name={'confirmPassword'}/>
-            </div>
+              <ErrorMessageRed component={'div'} name={'confirmPassword'}/>
+            </Box>
             <Button variant='contained' type={'submit'}>Submit</Button>
           </Form>
         </Formik>
       </Container>
-    </div>
+    </Box>
   );
 }
 

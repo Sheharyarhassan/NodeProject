@@ -34,9 +34,17 @@ const getActiveGenres = async (req, res) => {
   }
 }
 const getAllGenres = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const totalRecords = await Genre.countDocuments();
   try {
-    const genres = await Genre.find();
-    res.status(200).send(genres)
+    const genres = await Genre.find().skip((page - 1) * limit).limit(limit);
+    res.status(200).json({
+      totalRecords: totalRecords,
+      currentPage: page,
+      totalPages: Math.ceil(totalRecords / limit),
+      genres
+    });
   } catch (err) {
     res.status(500).send("Error:", err);
   }

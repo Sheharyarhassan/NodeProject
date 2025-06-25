@@ -12,7 +12,7 @@ const {
 const router = express.Router();
 const {authMiddleware} = require("../middleware/authMiddleware");
 const upload = require("../config/multerConfig");
-
+const setUploadFolder = require("../middleware/setUploadFolder");
 /**
  * @swagger
  * tags:
@@ -54,7 +54,7 @@ const upload = require("../config/multerConfig");
  *       201:
  *         description: Book added successfully
  */
-router.post("/book/Add", authMiddleware, upload.single("image"), addBook);
+router.post("/book/Add", authMiddleware, setUploadFolder('books'), upload.single("image"), addBook);
 
 /**
  * @swagger
@@ -165,7 +165,7 @@ router.get("/book/GetById/:id", getBookById); // No auth required
  *       404:
  *         description: Book not found
  */
-router.put("/book/Update/:id", authMiddleware, upload.single("image"), updateBook);
+router.put("/book/Update/:id", authMiddleware, setUploadFolder('books'), upload.single("image"), updateBook);
 
 /**
  * @swagger

@@ -3,6 +3,7 @@ import api from "../../../ApiHandle/api";
 import PageLoader from "../../../Components/PageLoader";
 import {
   Container,
+  Pagination,
   styled,
   Table,
   TableBody,
@@ -16,22 +17,21 @@ import {
 const Index = () => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   useEffect(() => {
-    api.get('http://localhost:5000/api/users/getAll?type=admin').then((res) => {
+    api.get(`http://localhost:5000/api/users/getAll?type=admin&page=${currentPage}&limit=${limit}`).then((res) => {
       setUsers(res.data);
       setLoading(false);
     }).catch((err) => {
       console.log(err);
       setLoading(false);
     });
-  }, []);
+  }, [currentPage]);
   const StyledTableRow = styled(TableRow)(({theme}) => ({
     ['&:nth-type-of(odd)']: {
       backgroundColor: theme.palette.action.hover,
     },
-    ['&:last-child td, &:last-child th']: {
-      border: 0
-    }
   }))
   const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -42,6 +42,9 @@ const Index = () => {
       fontSize: '14px'
     }
   }))
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  }
   return (
     <div>
       <PageLoader isLoading={loading}/>
@@ -58,7 +61,7 @@ const Index = () => {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {users.map((user, index) => (
+            {users?.userNames?.map((user, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell>{user.name}</StyledTableCell>
                 <StyledTableCell>{user.userName}</StyledTableCell>
@@ -67,6 +70,7 @@ const Index = () => {
             ))}
           </TableBody>
         </Table>
+        <Pagination sx={{mt: 2}} color='primary' onChange={handlePageChange} count={users.totalPages}/>
       </Container>
     </div>
   );

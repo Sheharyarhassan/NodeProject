@@ -15,7 +15,7 @@ const addBook = async (req, res) => {
       publishedYear: req.body.publishedYear,
       genre: req.body.genre,
       quantity: req.body.quantity,
-      image: `/uploads/${req.file.filename}`,
+      image: `/uploads/${req.folderName}/${req.file.filename}`,
       validFlag: true
     });
     await BookObject.save();
@@ -39,21 +39,44 @@ const getBookById = async (req, res) => {
   }
 }
 const getAllBooks = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const title = req.query.title || 'title';
+  const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
+  const totalRecords = await Book.countDocuments();
   try {
-    const books = await Book.find().populate('genre', "name");
-    res.status(200).send(books)
+    const books =
+      await Book.find().populate('genre', "name")
+        .sort({[title]: sortOrder}).skip((page - 1) * limit).limit(limit);
+
+    res.status(200).json({
+      totalRecords: totalRecords,
+      totalPages: Math.ceil(totalRecords / limit),
+      currentPage: page,
+      books
+    })
   } catch (err) {
     res.status(500).send('Error' + err);
   }
 }
 const getActiveBooks = async (req, res) => {
   try {
-    const books = await Book.find({validFlag: true}).populate('genre', "name");
-    res.status(200).send(books)
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const totalRecords = await Book.countDocuments();
+    const books = await Book.find({validFlag: true})
+      .populate('genre', 'name').skip((page - 1) * limit)
+      .limit(limit);
+    res.status(200).json({
+      totalRecords: totalRecords,
+      totalPages: Math.ceil(totalRecords / limit),
+      currentPage: page,
+      books
+    });
   } catch (err) {
-    res.status(500).send('Error' + err);
+    res.status(500).send('Error: ' + err.message);
   }
-}
+};
 const getBooksByGenre = async (req, res) => {
   if (!req.params.genre) {
     try {
@@ -85,12 +108,12 @@ const updateBook = async (req, res) => {
     }
     if (req.file) {
       if (book.image) {
-        const oldImagePath = path.join(__dirname, "../uploads", book.image);
+        const oldImagePath = path.join(__dirname, `../uploads/${req.folderName}`, book.image);
         if (fs.existsSync(oldImagePath)) {
           fs.unlinkSync(oldImagePath);
         }
       }
-      imagePath = `/uploads/${req.file.filename}`
+      imagePath = `/uploads/${req.folderName}/${req.file.filename}`
     }
     if (!req.file) {
       imagePath = book.image;

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Skeleton from "react-loading-skeleton";
 import api from "../ApiHandle/api";
-import {Box, Button, Card, CardContent, CardMedia, Container, Grid, Link, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, CardMedia, Container, Grid, Typography} from "@mui/material";
+import {Link} from 'react-router-dom';
 
 const Home = () => {
   const [books, setBooks] = useState([]);
@@ -62,11 +63,11 @@ const Home = () => {
           ))
           : books?.map((book, index) => (
             <Grid key={index} size={{lg: 4, md: 6, sm: 12}}>
-              <Card sx={{height: "100%"}}>
-                <Link underline={'none'} href={`/book/${book._id}`}>
+              <Card sx={{height: "100%", width: '100%'}}>
+                <Link style={{textDecoration: 'none'}} to={`/book/${book._id}`}>
                   <CardMedia
                     component={'img'}
-                    sx={{height: '500px', maxWidth: '100%', objectFit: 'cover'}}
+                    sx={{height: {md: '590px', xs: '100%'}, width: '100%', objectFit: 'cover'}}
                     image={`http://localhost:5000${book.image}`}
                     title={book.title}
                   />

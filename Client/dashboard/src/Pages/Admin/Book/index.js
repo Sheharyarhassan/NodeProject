@@ -2,10 +2,17 @@ import React, {useEffect, useState} from 'react';
 import api from '../../../ApiHandle/api'
 import PageLoader from "../../../Components/PageLoader";
 import {
+  Box,
   Chip,
   Container,
+  FormControl,
+  Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
   Pagination,
+  Select,
   styled,
   Table,
   TableBody,
@@ -23,11 +30,21 @@ import {useNavigate} from "react-router-dom";
 function Index() {
   const navigate = useNavigate();
   const [perPage, setPerPage] = useState(10);
+  const [filters, setFilters] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState({
+    Genre: ['all'],
+    Status: 'all'
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState([]);
   const [title, setTitle] = useState('title');
   const [sort, setSort] = useState('asc');
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    api.get('http://localhost:5000/api/book/getFilters').then(response => {
+      setFilters(response?.data)
+    });
+  }, []);
   const handleChange = (event, value) => {
     setCurrentPage(value);
   }
@@ -85,6 +102,7 @@ function Index() {
       setSort(prev => (prev === 'asc' ? 'desc' : 'asc'));
     }
   }
+  console.log(filters)
   return (
     <div>
       <PageLoader isLoading={loading}/>
@@ -92,6 +110,44 @@ function Index() {
         <Typography sx={{margin: '2rem 0'}} component='h1' variant='h5'>
           Book Details
         </Typography>
+        <Grid spacing={2}>
+          {filters && filters?.map((items, index) => (
+            <Grid key={index} md={6}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">{items?.label}</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  multiple={items?.type === 'multiple'}
+                  input={<OutlinedInput id="select-multiple-chip" label="Chip"/>}
+                  renderValue={
+                    items?.type === 'multi'
+                      ? (selected) => (
+                        <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
+                          {selected.map((value) => (
+                            <Chip key={value} label={value}/>
+                          ))}
+                        </Box>
+                      )
+                      : undefined
+                  }
+                  value={items?.label === 'Genre' ? selectedGenre.Genre : selectedGenre.Status}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
+                  label="Age"
+                  variant={'outlined'}
+                  sx={{mb: 4}}
+                >
+                  {items.options.map((option, index) => (
+                    <MenuItem key={index} value={option.value}>{option.label}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+            </Grid>
+          ))}
+
+        </Grid>
+
         <Table>
           <TableHead>
             <StyledTableRow>

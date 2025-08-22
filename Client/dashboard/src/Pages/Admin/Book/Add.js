@@ -44,10 +44,10 @@ function Add() {
     formData.append("genre", values.genre);
     formData.append("quantity", values.quantity);
     formData.append("description", values.description);
+    setLoading(true);
     try {
       const response = await api.post("http://localhost:5000/api/book/Add", formData,
         {"Content-Type": "multipart/form-data"})
-      console.log(response)
       if (response.status === 201) {
         resetForm();
         setLoading(false);

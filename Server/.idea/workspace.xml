@@ -5,20 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ee4ccd-2e75-49ff-b1b3-a91be8276254" name="Changes" comment="Multer and Swagger config">
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../102868.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../102868.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../853510.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../853510.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/Add.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/Add.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Cart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Routes/ProtectedRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Routes/ProtectedRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Routes/Routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Routes/Routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FSOTR.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../FSOTR.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Routes/bookRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/bookRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Routes/genreRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/genreRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/userRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/authMiddleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Routes/cartRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/cartRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/bookController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/bookController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/cartController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/cartController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../The_Haunted_Mask.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../The_Haunted_Mask.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../animalfarm.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../animalfarm.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,18 +34,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Sheharyarhassan"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Sheharyarhassan&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Sheharyarhassan/NodeProject.git",
-    "accountId": "b4d33e2a-c25c-454f-b500-97b4e0d245f6"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Sheharyarhassan/NodeProject.git&quot;,
+    &quot;accountId&quot;: &quot;b4d33e2a-c25c-454f-b500-97b4e0d245f6&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -58,6 +57,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -72,7 +73,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.157" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-WS-252.23892.411" />
       </set>
     </attachedChunks>
   </component>
@@ -86,6 +87,7 @@
       <updated>1738671069110</updated>
       <workItem from="1738671070491" duration="7955000" />
       <workItem from="1738753306828" duration="51662000" />
+      <workItem from="1755259570405" duration="582000" />
     </task>
     <task id="LOCAL-00001" summary="File Handling and multer config">
       <option name="closed" value="true" />

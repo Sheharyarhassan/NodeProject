@@ -1,5 +1,5 @@
 const express = require('express');
-const {getCart, AddToCartGuest, AddToCartUser} = require("../controller/cartController");
+const {getCart, AddToCartGuest, AddToCartUser, removeItem} = require("../controller/cartController");
 const {authMiddleware} = require("../middleware/authMiddleware");
 const router = express.Router();
 
@@ -84,6 +84,54 @@ router.post("/addToCart", AddToCartGuest);
  *       200:
  *         description: Cart retrieved successfully
  */
-router.get("/getCart/:userId", getCart);
+router.get("/getCart/:userId?", getCart);
+
+/**
+ * @swagger
+ * /cart/remove/{userId}:
+ *   delete:
+ *     summary: Remove an item from the cart by item ID and user ID or guest ID
+ *     tags: [Cart]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Optional User ID (if logged in)
+ *       - in: query
+ *         name: itemId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the item to remove from the cart
+ *       - in: cookie
+ *         name: guestId
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Guest ID stored in cookies (used if userId is not provided)
+ *     responses:
+ *       200:
+ *         description: Item removed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 cart:
+ *                   type: object
+ *       400:
+ *         description: Missing or invalid parameters
+ *       404:
+ *         description: Cart not found
+ *       500:
+ *         description: Server error
+ */
+
+router.delete('/cart/remove/:userId?', removeItem);
+
 
 module.exports = router;

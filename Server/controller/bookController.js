@@ -1,5 +1,5 @@
 const {bookValidation} = require('../validators/bookValidation');
-const {Book} = require('../models/booksModels');
+const {Book, Genre} = require('../models/booksModels');
 const fs = require('fs');
 const path = require('path');
 
@@ -159,7 +159,39 @@ const DeactivateBook = async (req, res) => {
     res.status(500).send('Error updating book' + err);
   }
 }
-
+const getBookFilters = async (req, res) => {
+  const genres = await Genre.find({validFlag: true});
+  try {
+    if (!genres) {
+      return res.status(400).send('No genre found! No filters were found');
+    }
+    const filters = [
+      {
+        label: 'Genre',
+        type: 'multiple',
+        options: [
+          {value: 'all', label: 'All'},
+          ...genres.map((item) => ({
+            value: item._id,
+            label: item.name,
+          })),
+        ],
+      },
+      {
+        label: 'Status',
+        type: 'single',
+        options: [
+          {value: 'all', label: 'All'},
+          {value: true, label: 'Active'},
+          {value: false, label: 'Inactive'},
+        ],
+      },
+    ];
+    res.status(200).json(filters);
+  } catch (e) {
+    res.status(500).send('Error getting books:' + e);
+  }
+}
 module.exports = {
   getBooksByGenre,
   getAllBooks,
@@ -168,5 +200,6 @@ module.exports = {
   updateBook,
   ActivateBook,
   DeactivateBook,
-  getActiveBooks
+  getActiveBooks,
+  getBookFilters
 }

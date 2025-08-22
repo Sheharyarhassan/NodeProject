@@ -8,6 +8,7 @@ const {
   DeactivateBook,
   getActiveBooks,
   getBooksByGenre,
+  getBookFilters
 } = require("../controller/bookController");
 const router = express.Router();
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -212,5 +213,18 @@ router.patch("/book/Activate/:id", authMiddleware, ActivateBook);
  *         description: Book not found
  */
 router.patch("/book/Deactivate/:id", authMiddleware, DeactivateBook);
+/**
+ * @swagger
+ * /book/getFilters:
+ *   get:
+ *     summary: Get all books Filter (Private)
+ *     tags: [Books]
+ *     security:
+ *       - BearerAuth: []  # Requires authentication
+ *     responses:
+ *       200:
+ *         description: List of books Filters retrieved successfully
+ */
 
+router.get('/book/getFilters', authMiddleware, getBookFilters)
 module.exports = router;

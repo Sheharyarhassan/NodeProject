@@ -11,7 +11,7 @@ const addGenre = async (req, res) => {
       validFlag: true,
     })
     await newGenre.save()
-    res.status(201).send("Genre Added Successfully")
+    res.status(201).json("Genre Added Successfully")
   } catch (err) {
     res.status(500).send('Error Adding Genre' + err);
   }

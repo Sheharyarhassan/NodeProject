@@ -19,7 +19,7 @@ const addBook = async (req, res) => {
       validFlag: true
     });
     await BookObject.save();
-    res.status(201).send("Book Added SuccessFully")
+    res.status(201).json("Book Added SuccessFully")
   } catch (err) {
     res.status(500).send("Error" + err)
   }

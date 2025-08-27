@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ee4ccd-2e75-49ff-b1b3-a91be8276254" name="Changes" comment="Multer and Swagger config">
-      <change beforePath="$PROJECT_DIR$/../102868.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../102868.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../853510.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../853510.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/Add.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/Add.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Book/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Admin/Cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/Pages/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FSOTR.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../FSOTR.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/ApiHandle/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/ApiHandle/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Routes/bookRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/bookRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Routes/cartRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/cartRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/bookController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/bookController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/cartController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/cartController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../The_Haunted_Mask.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../The_Haunted_Mask.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../animalfarm.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../animalfarm.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/genreController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/genreController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,22 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -88,6 +81,8 @@
       <workItem from="1738671070491" duration="7955000" />
       <workItem from="1738753306828" duration="51662000" />
       <workItem from="1755259570405" duration="582000" />
+      <workItem from="1755866853257" duration="4173000" />
+      <workItem from="1756292285592" duration="2773000" />
     </task>
     <task id="LOCAL-00001" summary="File Handling and multer config">
       <option name="closed" value="true" />

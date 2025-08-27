@@ -59,15 +59,57 @@ router.post("/book/Add", authMiddleware, setUploadFolder('books'), upload.single
 
 /**
  * @swagger
- * /book/GetAll:
+ * /book/GetAllActive:
  *   get:
- *     summary: Retrieve all books (Public)
+ *     summary: Get all active books with pagination
  *     tags: [Books]
- *     security:
- *       - BearerAuth: []  # This route requires authentication
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 3
+ *         description: Number of items per page
  *     responses:
  *       200:
- *         description: List of books retrieved successfully
+ *         description: A list of active books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalRecords:
+ *                   type: integer
+ *                 totalPages:
+ *                   type: integer
+ *                 currentPage:
+ *                   type: integer
+ *                 books:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *                       author:
+ *                         type: string
+ *                       genre:
+ *                         type: object
+ *                         properties:
+ *                           _id:
+ *                             type: string
+ *                           name:
+ *                             type: string
+ *       500:
+ *         description: Server error
  */
 router.get("/book/GetAll", authMiddleware, getAllBooks); // No auth required
 

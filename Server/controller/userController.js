@@ -23,7 +23,7 @@ const addUserType = async (req, res) => {
       name: req.body.name
     })
     await newUserType.save();
-    res.status(201).send("User Type Added Successfully");
+    res.status(201).json("User Type Added Successfully");
   } catch (err) {
     res.status(500).send("Error:" + err);
   }
@@ -158,7 +158,7 @@ const userSignup = async (req, res) => {
       userType: userTypeDoc._id,
     })
     await newUser.save();
-    res.status(201).send('User Created Successfully');
+    res.status(201).json('User Created Successfully');
   } catch (err) {
     res.status(500).send("Error: " + err)
   }
@@ -178,7 +178,7 @@ const adminSignup = async (req, res) => {
       userType: adminTypeDoc._id,
     })
     await newUser.save();
-    res.status(201).send('User Created Successfully');
+    res.status(201).json('User Created Successfully');
   } catch (err) {
     res.status(500).send("Error: " + err)
   }

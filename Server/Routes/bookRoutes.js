@@ -111,7 +111,7 @@ router.post("/book/Add", authMiddleware, setUploadFolder('books'), upload.single
  *       500:
  *         description: Server error
  */
-router.get("/book/GetAll", authMiddleware, getAllBooks); // No auth required
+router.post("/book/GetAll", authMiddleware, getAllBooks); // No auth required
 
 /**
  * @swagger

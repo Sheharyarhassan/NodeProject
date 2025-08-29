@@ -38,21 +38,53 @@ const getBookById = async (req, res) => {
     res.status(500).send('Error:' + err)
   }
 }
+// const getAllBooks = async (req, res) => {
+//   const page = parseInt(req.query.page) || 1;
+//   const limit = parseInt(req.query.limit) || 10;
+//   const title = req.query.title || 'title';
+//   const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
+//   const totalRecords = await Book.countDocuments();
+//   try {
+//     const books =
+//       await Book.find().populate('genre', "name")
+//         .sort({[title]: sortOrder}).skip((page - 1) * limit).limit(limit);
+//
+//     res.status(200).json({
+//       totalRecords: totalRecords,
+//       totalPages: Math.ceil(totalRecords / limit),
+//       currentPage: page,
+//       books
+//     })
+//   } catch (err) {
+//     res.status(500).send('Error' + err);
+//   }
+// }
 const getAllBooks = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const title = req.query.title || 'title';
+  const {Genre = ['all'], Status = 'all'} = req.body;
   const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
   const totalRecords = await Book.countDocuments();
   try {
-    const books =
-      await Book.find().populate('genre', "name")
-        .sort({[title]: sortOrder}).skip((page - 1) * limit).limit(limit);
+    const filter = {};
+    if (Array.isArray(Genre) && Genre.length > 0 && !Genre.includes("all")) {
+      filter.genre = {$in: Genre};
+    }
+    if (Status !== undefined && Status !== null && String(Status).toLowerCase() !== "all") {
+      filter.validFlag = Status;
+    }
+    const books = await Book.find(filter)
+      .populate("genre", "name")
+      .sort({[title]: sortOrder})
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     res.status(200).json({
       totalRecords: totalRecords,
       totalPages: Math.ceil(totalRecords / limit),
       currentPage: page,
+      filteredRecord: books.length,
       books
     })
   } catch (err) {

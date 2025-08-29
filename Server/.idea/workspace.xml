@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ee4ccd-2e75-49ff-b1b3-a91be8276254" name="Changes" comment="Multer and Swagger config">
-      <change beforePath="$PROJECT_DIR$/../Client/dashboard/src/ApiHandle/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/dashboard/src/ApiHandle/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Routes/bookRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Routes/bookRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/bookController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/bookController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/genreController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/genreController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +77,8 @@
       <workItem from="1738753306828" duration="51662000" />
       <workItem from="1755259570405" duration="582000" />
       <workItem from="1755866853257" duration="4173000" />
-      <workItem from="1756292285592" duration="2773000" />
+      <workItem from="1756292285592" duration="5700000" />
+      <workItem from="1756461039233" duration="417000" />
     </task>
     <task id="LOCAL-00001" summary="File Handling and multer config">
       <option name="closed" value="true" />

@@ -32,7 +32,7 @@ function Index() {
   const [perPage, setPerPage] = useState(10);
   const [filters, setFilters] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState({
-    Genre: ['all'],
+    Genre: [],
     Status: 'all'
   });
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,7 +51,10 @@ function Index() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await api.get(`http://localhost:5000/api/book/GetAll?page=${currentPage}&limit=${perPage}&title=${title}&sortOrder=${sort}`, {}, {isAdmin: true});
+      const response = await api.post(`http://localhost:5000/api/book/GetAll?page=${currentPage}&limit=${perPage}&title=${title}&sortOrder=${sort}`, {
+        Genre: selectedGenre.Genre,
+        Status: selectedGenre.Status
+      }, {isAdmin: true});
       setData(response.data);
     } catch (error) {
       console.log(error);
@@ -73,7 +76,7 @@ function Index() {
   }
   useEffect(() => {
     fetchData();
-  }, [currentPage, title, sort])
+  }, [currentPage, title, sort, selectedGenre])
   const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -121,7 +124,7 @@ function Index() {
                   multiple={items?.type === 'multiple'}
                   input={<OutlinedInput id="select-multiple-chip" label="Chip"/>}
                   renderValue={
-                    items?.type === 'multi'
+                    items?.type === 'multiple'
                       ? (selected) => (
                         <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
                           {selected.map((value) => (
@@ -132,7 +135,12 @@ function Index() {
                       : undefined
                   }
                   value={items?.label === 'Genre' ? selectedGenre.Genre : selectedGenre.Status}
-                  onChange={(e) => setSelectedGenre(e.target.value)}
+                  onChange={(e) =>
+                    setSelectedGenre((prev) => ({
+                      ...prev,
+                      [items?.label]: e.target.value,
+                    }))
+                  }
                   label="Age"
                   variant={'outlined'}
                   sx={{mb: 4}}

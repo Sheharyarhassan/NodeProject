@@ -105,7 +105,6 @@ function Index() {
       setSort(prev => (prev === 'asc' ? 'desc' : 'asc'));
     }
   }
-  console.log(filters)
   return (
     <div>
       <PageLoader isLoading={loading}/>

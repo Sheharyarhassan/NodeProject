@@ -42,6 +42,11 @@ app.use('/api', genreRoutes);
 
 app.use('/api', cartRoutes);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({message: err.message});
+});
+
 // Initialize Swagger
 swaggerDocs(app);
 const port = process.env.PORT || 8080

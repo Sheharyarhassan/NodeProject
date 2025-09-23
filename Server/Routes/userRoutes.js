@@ -14,7 +14,7 @@ const {
   DeactivateUserType,
   adminSignup,
   getUserById,
-  logoutUser,
+  logoutUser, getUserChartData,
 } = require("../controller/userController");
 const {authMiddleware} = require("../middleware/authMiddleware");
 
@@ -327,6 +327,18 @@ router.get("/usertype/getAll", authMiddleware, getAllUserTypes);
  *         description: List of active user types retrieved successfully
  */
 router.get("/usertype/getAllActive", authMiddleware, getAllActiveTypes);
+
+/**
+ * @swagger
+ * /user/getUserChartData:
+ *   get:
+ *     summary: Get all Users Chart Data (Public)
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: List of All Users Chart Data
+ */
+router.get("/user/getUserChartData", getUserChartData);
 
 /**
  * @swagger

@@ -38,27 +38,38 @@ const getBookById = async (req, res) => {
     res.status(500).send('Error:' + err)
   }
 }
-// const getAllBooks = async (req, res) => {
-//   const page = parseInt(req.query.page) || 1;
-//   const limit = parseInt(req.query.limit) || 10;
-//   const title = req.query.title || 'title';
-//   const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
-//   const totalRecords = await Book.countDocuments();
-//   try {
-//     const books =
-//       await Book.find().populate('genre', "name")
-//         .sort({[title]: sortOrder}).skip((page - 1) * limit).limit(limit);
-//
-//     res.status(200).json({
-//       totalRecords: totalRecords,
-//       totalPages: Math.ceil(totalRecords / limit),
-//       currentPage: page,
-//       books
-//     })
-//   } catch (err) {
-//     res.status(500).send('Error' + err);
-//   }
-// }
+const getBooksCountByType = async (req, res) => {
+  try {
+    const books = await Book.aggregate([
+      {$lookup: {from: "genres", localField: 'genre', foreignField: '_id', as: 'genreInfo'}},
+      {$unwind: '$genreInfo'},
+      {
+        $facet: {
+          activeBooks: [
+            {$match: {validFlag: true}},
+            {
+              $group: {
+                _id: '$genreInfo.name',
+                totalBooks: {$sum: 1}
+              }
+            }, {$sort: {totalBooks: -1}}
+          ],
+          inactiveBooks: [
+            {$match: {validFlag: false}},
+            {
+              $group: {
+                _id: '$genreInfo.name',
+                totalBooks: {$sum: 1}
+              }
+            }, {$sort: {totalBooks: -1}}
+          ]
+        }
+      }])
+    res.status(200).json(books[0])
+  } catch (err) {
+    res.status(500).send('Error' + err);
+  }
+}
 const getAllBooks = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -233,5 +244,6 @@ module.exports = {
   ActivateBook,
   DeactivateBook,
   getActiveBooks,
-  getBookFilters
+  getBookFilters,
+  getBooksCountByType
 }

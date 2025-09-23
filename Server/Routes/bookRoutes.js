@@ -8,7 +8,7 @@ const {
   DeactivateBook,
   getActiveBooks,
   getBooksByGenre,
-  getBookFilters
+  getBookFilters, getBooksCountByType
 } = require("../controller/bookController");
 const router = express.Router();
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -132,6 +132,21 @@ router.post("/book/GetAll", authMiddleware, getAllBooks); // No auth required
  */
 router.get("/book/GetBooksByGenre/:genre", getBooksByGenre);
 
+/**
+ * @swagger
+ * /book/GetBooksCountALlGenre:
+ *   get:
+ *     summary: Retrieve Active books counts by Genre (Public)
+ *     tags: [Books]
+ *     parameters:
+ *        schema:
+ *         type: string
+ *         description: Genre
+ *     responses:
+ *       200:
+ *         description: List of books count retrieved successfully
+ */
+router.get("/book/GetBooksCountALlGenre/", getBooksCountByType);
 /**
  * @swagger
  * /book/getAllActive:

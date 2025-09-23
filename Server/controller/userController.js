@@ -8,9 +8,8 @@ const {
 const {Signup, userType} = require('../models/userModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {ObjectId} = require("mongodb");
 const {Cart} = require("../models/cartModels");
-require('dotenv').config();
+const asyncHandler = require('../config/asyncHandler');
 
 const generateToken = (userId, secret, expiresIn) => {
   return jwt.sign({userId}, secret, {expiresIn});
@@ -267,7 +266,30 @@ const getAllUsers = async (req, res) => {
     res.status(500).send("Error: " + err)
   }
 }
-
+const getUserChartData = asyncHandler(async (req, res) => {
+  const user = await Signup.aggregate([
+    {
+      $group: {
+        _id: "$validFlag",
+        totalUsers: {$sum: 1}
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        status: {
+          $cond: {
+            if: {$eq: ["$_id", true]},
+            then: "Active Users",
+            else: "InActive Users"
+          }
+        },
+        totalUsers: 1
+      }
+    }
+  ]);
+  return res.status(200).json(user)
+})
 module.exports = {
   logoutUser,
   adminSignup,
@@ -282,5 +304,6 @@ module.exports = {
   getAllActiveTypes,
   ActivateUserType,
   DeactivateUserType,
-  getUserById
+  getUserById,
+  getUserChartData
 }

@@ -39,6 +39,8 @@ const connectdb = async () => {
 					userType: adminType._id,
 					email: "super@admin.com",
 				});
+				await newAdmin.save();
+				console.log('Super Admin Created Successfully')
 			} else {
 				console.log("Super already exists");
 			}

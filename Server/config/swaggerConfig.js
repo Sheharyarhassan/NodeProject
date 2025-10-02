@@ -11,7 +11,7 @@ const options = {
       },
       servers: [
          {
-            url: "http://localhost:5000/api", // Adjust based on your setup
+            url: `${process.env.API_URI}api`, // Adjust based on your setup
          },
       ],
       components: {
@@ -31,7 +31,7 @@ const swaggerSpec = swaggerJsdoc(options);
 
 const swaggerDocs = (app) => {
    app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-   console.log("Swagger UI available at http://localhost:5000/swagger");
+   console.log(`${process.env.API_URI}swagger`);
 };
 
 module.exports = swaggerDocs;

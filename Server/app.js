@@ -17,11 +17,8 @@ app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(express.static(path.join(__dirname, "../Client/dashboard/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Client/dashboard/build", "index.html"));
-});
+
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
@@ -46,6 +43,13 @@ app.use('/api', bookRoutes);
 app.use('/api', genreRoutes);
 
 app.use('/api', cartRoutes);
+
+
+app.use(express.static(path.join(__dirname, "../Client/dashboard/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Client/dashboard/build", "index.html"));
+});
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

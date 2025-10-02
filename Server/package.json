@@ -17,8 +17,7 @@
     "swagger-ui-express": "^5.0.1"
   },
  "scripts": {
-    "start": "node app.js",
-    "build-client": "cd ../Client/dashboard && npm install && npm run build",
-    "heroku-postbuild": "npm run build-client"
-  }
+  "start": "node app.js",
+  "postinstall": "cd ../Client/dashboard && npm install && npm run build"
+}
 }

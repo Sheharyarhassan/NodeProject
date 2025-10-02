@@ -29,7 +29,7 @@ function Index() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      await api.get(`${process.env.BASE_URL}genre/getAll?page=${currentPage}&limit=${limit}`).then(data => {
+      await api.get(`${process.env.REACT_APP_BASE_URL}genre/getAll?page=${currentPage}&limit=${limit}`).then(data => {
         setData(data.data)
       }).catch((err) => {
         console.log(err)
@@ -43,7 +43,7 @@ function Index() {
   const updateStatus = async (active, id) => {
     setLoading(true);
     try {
-      await api.patch(`${process.env.BASE_URL}genre/${active ? 'Deactivate' : 'Activate'}/${id}`
+      await api.patch(`${process.env.REACT_APP_BASE_URL}genre/${active ? 'Deactivate' : 'Activate'}/${id}`
         , {}, {isAdmin: true})
       fetchData();
     } catch (error) {

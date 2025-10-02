@@ -24,7 +24,7 @@ function Login() {
   const handleSubmit = async (values, {resetForm}) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(`${process.env.BASE_URL}login`, values, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}login`, values, {
         headers: {
           'Content-Type': 'application/json',
         }

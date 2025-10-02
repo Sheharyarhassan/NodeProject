@@ -24,7 +24,7 @@ const Index = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    api.get(`${process.env.BASE_URL}users/getAll?type=user&page=${currentPage}&limit=${limit}`).then((res) => {
+    api.get(`${process.env.REACT_APP_BASE_URL}users/getAll?type=user&page=${currentPage}&limit=${limit}`).then((res) => {
       setUsers(res.data);
       setLoading(false);
     }).catch((err) => {

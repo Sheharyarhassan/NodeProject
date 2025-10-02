@@ -12,7 +12,7 @@ const UserProfile = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    api.get(`${process.env.BASE_URL}user/getById/${storedUser.id}`).then((res) => {
+    api.get(`${process.env.REACT_APP_BASE_URL}user/getById/${storedUser.id}`).then((res) => {
       setData(res.data);
       setLoading(false);
     })
@@ -32,7 +32,7 @@ const UserProfile = () => {
     setLoading(true);
     const {confirmPassword, ...payload} = values;
     try {
-      const response = await api.put(`${process.env.BASE_URL}user/Update/${storedUser.id}`, payload)
+      const response = await api.put(`${process.env.REACT_APP_BASE_URL}user/Update/${storedUser.id}`, payload)
       if (response.status === 200) {
         toast.success('User successfully updated!', {
           onClose: () => {

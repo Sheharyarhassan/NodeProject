@@ -9,7 +9,7 @@ const BooksByGenre = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    api.get(`${process.env.BASE_URL}book/GetBooksByGenre/${genre}`, {skipAuth: true}).then((res) => {
+    api.get(`${process.env.REACT_APP_BASE_URL}book/GetBooksByGenre/${genre}`, {skipAuth: true}).then((res) => {
       setData(res.data);
       setLoading(false);
     })
@@ -25,7 +25,7 @@ const BooksByGenre = () => {
               <Link style={{textDecoration: 'none'}} to={`/book/${book._id}`}>
                 <Card sx={{height: '100%'}}>
                   <CardMedia sx={{height: 550, objectFit: 'cover'}}
-                             image={`${process.env.IMAGE_PATH}${book.image}`}
+                             image={`${process.env.REACT_APP_IMAGE_PATH}${book.image}`}
                              title={book.title}/>
                   <CardContent
                     sx={{flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>

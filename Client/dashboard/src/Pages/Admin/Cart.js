@@ -31,12 +31,12 @@ const Cart = () => {
   }, []);
   const getCartData = () => {
     if (userDetails?.id) {
-      api.get(`${process.env.BASE_URL}getCart/${userDetails?.id}`).then((res) => {
+      api.get(`${process.env.REACT_APP_BASE_URL}getCart/${userDetails?.id}`).then((res) => {
         setLoading(false);
         setData(res.data);
       })
     } else if (guestId) {
-      api.get(`${process.env.BASE_URL}getCart/${guestId}`).then((res) => {
+      api.get(`${process.env.REACT_APP_BASE_URL}getCart/${guestId}`).then((res) => {
         setLoading(false);
         setData(res.data);
       })
@@ -49,7 +49,7 @@ const Cart = () => {
     setLoading(true);
     try {
       if (userDetails?.id) {
-        const response = await api.delete(`${process.env.BASE_URL}cart/remove/${userDetails?.id}?itemId=${id}`)
+        const response = await api.delete(`${process.env.REACT_APP_BASE_URL}cart/remove/${userDetails?.id}?itemId=${id}`)
         console.log(response);
         if (response?.status === 200) {
           toast.success(response?.data?.message || 'Item Removed', {
@@ -60,7 +60,7 @@ const Cart = () => {
           });
         }
       } else if (guestId) {
-        const response = await api.delete(`${process.env.BASE_URL}cart/remove/${guestId}?itemId=${id}`)
+        const response = await api.delete(`${process.env.REACT_APP_BASE_URL}cart/remove/${guestId}?itemId=${id}`)
         if (response.status === 200) {
           toast.success(response?.data?.message || 'Item Removed', {
             onClose: () => {
@@ -91,7 +91,7 @@ const Cart = () => {
                     <Grid container spacing={2} sx={{justifyContent: {xs: 'center', sm: 'start'}}}>
                       <Grid size={{lg: 3, sm: 3}}>
                         <CardMedia height={'200'} component="img" sx={{objectFit: 'contain'}}
-                                   image={process.env.IMAGE_PATH + item?.book?.image}/>
+                                   image={process.env.REACT_APP_IMAGE_PATH + item?.book?.image}/>
                       </Grid>
                       <Grid size={{lg: 6, sm: 6}}>
                         <Typography component="h1" variant="h6"

@@ -14,7 +14,7 @@ const BookDetails = () => {
   const [cart, setCart] = useState(null);
 
   useEffect(() => {
-    api.get(`${process.env.BASE_URL}book/GetById/${id}`, {skipAuth: true}).then((response) => {
+    api.get(`${process.env.REACT_APP_BASE_URL}book/GetById/${id}`, {skipAuth: true}).then((response) => {
       setLoading(false);
       setData(response?.data);
     }).catch((err) => {
@@ -24,7 +24,7 @@ const BookDetails = () => {
   }, [id]);
   useEffect(() => {
     if (storedUser) {
-      api.get(`${process.env.BASE_URL}getCart/${storedUser?.id}`).then(
+      api.get(`${process.env.REACT_APP_BASE_URL}getCart/${storedUser?.id}`).then(
         (res) => {
           const selectedData = res?.data?.cart?.item?.map((item1) => {
             if (item1._id === data?._id) {
@@ -43,7 +43,7 @@ const BookDetails = () => {
 
     if (token) {
       const cartData = {userId: userId, bookId: bookId, quantity: 1};
-      const response = await api.post(`${process.env.BASE_URL}user/addToCart`, cartData);
+      const response = await api.post(`${process.env.REACT_APP_BASE_URL}user/addToCart`, cartData);
       if (response.status === 200) {
         toast.success("Successfully added to cart!", {
           onClose: () => {
@@ -54,7 +54,7 @@ const BookDetails = () => {
       }
     } else if (!token) {
       const cartData = {item: [{bookId: bookId, quantity: 1}]};
-      const response = await api.post(`${process.env.BASE_URL}addToCart`, cartData);
+      const response = await api.post(`${process.env.REACT_APP_BASE_URL}addToCart`, cartData);
       if (response.status === 200) {
         toast.success("Successfully added to cart!", {
           onClose: () => {
@@ -73,7 +73,7 @@ const BookDetails = () => {
         <Grid container spacing={2} sx={{marginTop: '1.5rem'}}>
           <Grid size={{lg: 4, md: 6, xs: 12}}>
 
-            <img src={process.env.IMAGE_PATH + data?.image} alt={'BookImage'}
+            <img src={process.env.REACT_APP_IMAGE_PATH + data?.image} alt={'BookImage'}
                  style={{maxWidth: '100%', height: 'auto'}}/>
 
           </Grid>

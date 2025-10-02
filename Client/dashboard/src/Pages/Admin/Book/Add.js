@@ -46,7 +46,7 @@ function Add() {
     formData.append("description", values.description);
     setLoading(true);
     try {
-      const response = await api.post(`${process.env.BASE_URL}book/Add`, formData,
+      const response = await api.post(`${process.env.REACT_APP_BASE_URL}book/Add`, formData,
         {"Content-Type": "multipart/form-data"})
       if (response.status === 201) {
         resetForm();
@@ -62,7 +62,7 @@ function Add() {
   const populateGenres = async () => {
     setLoading(true);
     try {
-      await api.get(`${process.env.BASE_URL}genre/getAllActive`, {skipAuth: true}).then(
+      await api.get(`${process.env.REACT_APP_BASE_URL}genre/getAllActive`, {skipAuth: true}).then(
         (response) => {
           setGenre(response.data);
           setLoading(false);

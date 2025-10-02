@@ -13,7 +13,7 @@ const Update = () => {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    api.get(`${process.env.BASE_URL}genre/getById/${id}`).then(res => {
+    api.get(`${process.env.REACT_APP_BASE_URL}genre/getById/${id}`).then(res => {
       setLoading(false);
       setData(res.data);
     })
@@ -27,7 +27,7 @@ const Update = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await api.put(`${process.env.BASE_URL}genre/Update/${id}`, values)
+      const response = await api.put(`${process.env.REACT_APP_BASE_URL}genre/Update/${id}`, values)
       if (response.status === 200) {
         setLoading(false);
         toast.success('Genre Updated Successfully', {

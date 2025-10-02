@@ -15,7 +15,7 @@ const Genres = () => {
   }
   const [data, setData] = useState(null);
   useEffect(() => {
-    api.get(`${process.env.BASE_URL}genre/getAllActive`, {skipAuth: true}).then(res => {
+    api.get(`${process.env.REACT_APP_BASE_URL}genre/getAllActive`, {skipAuth: true}).then(res => {
       setData(res.data);
       setLoading(false)
     })

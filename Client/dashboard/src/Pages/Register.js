@@ -38,7 +38,7 @@ function Register() {
     setIsLoading(true);
     const {confirmPassword, ...payload} = values;
     try {
-      const response = await api.post(`${process.env.BASE_URL}Signup`, payload)
+      const response = await api.post(`${process.env.REACT_APP_BASE_URL}Signup`, payload)
       if (response.status === 201) {
         toast.success('User successfully registered!', {
           onClose: () => {

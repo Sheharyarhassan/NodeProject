@@ -12,11 +12,16 @@ const crypto = require('crypto');
 const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
-const allowedOrigins = ['http://localhost:3001', 'http://localhost:3000', 'http://localhost:3002']; // Add your frontend URL here
+const allowedOrigins = ['http://localhost:3001', 'http://localhost:3000', 'http://localhost:3002',process.env.CLIENT_URL]; // Add your frontend URL here
 app.use(cookieParser());
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(express.static(path.join(__dirname, "../Client/dashboard/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Client/dashboard/build", "index.html"));
+});
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,

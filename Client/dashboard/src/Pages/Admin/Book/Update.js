@@ -15,7 +15,7 @@ const Update = () => {
   const [book, setBook] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    api.get(`http://localhost:5000/api/book/GetById/${id}`, {skipAuth: true}).then((response) => {
+    api.get(`${process.env.BASE_URL}book/GetById/${id}`, {skipAuth: true}).then((response) => {
       setBook(response?.data);
       setLoading(false);
     }).catch((error) => {
@@ -55,7 +55,7 @@ const Update = () => {
     formData.append("quantity", values.quantity);
     formData.append("description", values.description);
     try {
-      const response = await api.put(`http://localhost:5000/api/book/Update/${id}`, formData,
+      const response = await api.put(`${process.env.BASE_URL}book/Update/${id}`, formData,
         {isAdmin: true, "Content-Type": "multipart/form-data"})
       console.log(response)
       if (response.status === 200) {
@@ -72,7 +72,7 @@ const Update = () => {
   const populateGenres = async () => {
     setLoading(true);
     try {
-      await api.get('http://localhost:5000/api/genre/getAllActive', {skipAuth: true}).then(
+      await api.get(`${process.env.BASE_URL}genre/getAllActive`, {skipAuth: true}).then(
         (response) => {
           setGenre(response.data);
           setLoading(false);
@@ -144,7 +144,7 @@ const Update = () => {
                 </Box>
                 <Box sx={{marginTop: '1.5rem'}}>
                   <InputLabel>Book Image</InputLabel>
-                  <img src={`http://localhost:5000${book.image}`} alt={"book"} className={"mw-100 h-auto"}/>
+                  <img src={`${process.env.IMAGE_PATH}${book.image}`} alt={"book"} className={"mw-100 h-auto"}/>
                 </Box>
                 <Box sx={{marginTop: '1.5rem'}}>
                   <InputLabel>Update Book Image</InputLabel>

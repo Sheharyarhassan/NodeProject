@@ -56,11 +56,11 @@ function Header() {
 
   useEffect(() => {
     if (userDetails?.id) {
-      api.get(`http://localhost:5000/api/getCart/${userDetails.id}`).then((res) => {
+      api.get(`${process.env.BASE_URL}getCart/${userDetails.id}`).then((res) => {
         setCart(res.data);
       });
     } else if (guestId && guestId) {
-      api.get(`http://localhost:5000/api/getCart/${guestId}`).then((res) => {
+      api.get(`${process.env.BASE_URL}getCart/${guestId}`).then((res) => {
         setCart(res.data);
       });
     }

@@ -10,7 +10,7 @@ const Logout = () => {
   const logoutClient = async () => {
     setLoading(true);
     try {
-      await api.post('http://localhost:5000/api/logout', {})
+      await api.post(`${process.env.BASE_URL}logout`, {})
       localStorage.removeItem('token');
       localStorage.removeItem('userType');
       window.dispatchEvent(new Event("authChange"));

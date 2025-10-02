@@ -14,7 +14,7 @@ const Home = () => {
   const fetchBooks = async () => {
     setLoading(true);
     try {
-      const res = await api.get(`http://localhost:5000/api/book/getAllActive?page=${currentPage}&limit=${limit}`, {
+      const res = await api.get(`${process.env.BASE_URL}book/getAllActive?page=${currentPage}&limit=${limit}`, {
         skipAuth: true
       });
       const newBooks = res?.data?.books || [];
@@ -68,7 +68,7 @@ const Home = () => {
                   <CardMedia
                     component={'img'}
                     sx={{height: {md: '590px', xs: '100%'}, width: '100%', objectFit: 'cover'}}
-                    image={`http://localhost:5000${book.image}`}
+                    image={`${process.env.IMAGE_PATH}${book.image}`}
                     title={book.title}
                   />
                   <CardContent>

@@ -11,7 +11,7 @@ function Update() {
   const {id} = useParams();
   const [data, setData] = useState(null);
   useEffect(() => {
-    api.get(`http://localhost:5000/api/user/getById/${id}`).then(response => {
+    api.get(`${process.env.BASE_URL}user/getById/${id}`).then(response => {
       setData(response.data);
     })
   }, []);
@@ -31,7 +31,7 @@ function Update() {
     setIsLoading(true);
     const {confirmPassword, ...payload} = values;
     try {
-      const response = await api.put(`http://localhost:5000/api/user/Update/${id}`, payload)
+      const response = await api.put(`${process.env.BASE_URL}user/Update/${id}`, payload)
       if (response.status === 200) {
         toast.success('User successfully updated!', {
           onClose: () => {

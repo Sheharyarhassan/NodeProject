@@ -19,7 +19,7 @@ function Add() {
   const handleSubmit = async (values, {resetForm}) => {
     setLoading(true)
     try {
-      const response = await api.post('http://localhost:5000/api/genre/Add', values)
+      const response = await api.post(`${process.env.BASE_URL}genre/Add`, values)
       if (response.status === 201) {
         resetForm();
         setLoading(false);

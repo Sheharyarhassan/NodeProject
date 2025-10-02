@@ -36,7 +36,7 @@ const Add = () => {
     setIsLoading(true);
     const {confirmPassword, ...payload} = values;
     try {
-      const response = await api.post('http://localhost:5000/api/adminSignup', payload)
+      const response = await api.post(`${process.env.BASE_URL}adminSignup`, payload)
       if (response.status === 201) {
         toast.success('Admin successfully registered!', {
           onClose: () => {

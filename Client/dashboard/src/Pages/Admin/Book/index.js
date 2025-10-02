@@ -41,7 +41,7 @@ function Index() {
   const [sort, setSort] = useState('asc');
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    api.get('http://localhost:5000/api/book/getFilters').then(response => {
+    api.get(`${process.env.BASE_URL}book/getFilters`).then(response => {
       setFilters(response?.data)
     });
   }, []);
@@ -51,7 +51,7 @@ function Index() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await api.post(`http://localhost:5000/api/book/GetAll?page=${currentPage}&limit=${perPage}&title=${title}&sortOrder=${sort}`, {
+      const response = await api.post(`${process.env.BASE_URL}book/GetAll?page=${currentPage}&limit=${perPage}&title=${title}&sortOrder=${sort}`, {
         Genre: selectedGenre.Genre,
         Status: selectedGenre.Status
       }, {isAdmin: true});
@@ -65,7 +65,7 @@ function Index() {
   const updateStatus = async (active, id) => {
     setLoading(true);
     try {
-      await api.patch(`http://localhost:5000/api/book/${active ? 'Deactivate' : 'Activate'}/${id}`, {},
+      await api.patch(`${process.env.BASE_URL}book/${active ? 'Deactivate' : 'Activate'}/${id}`, {},
         {isAdmin: true})
       fetchData();
     } catch (error) {

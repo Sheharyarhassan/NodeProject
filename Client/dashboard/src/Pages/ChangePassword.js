@@ -34,7 +34,7 @@ const ChangePassword = () => {
     setIsLoading(true);
     const {confirmPassword, ...payload} = values;
     try {
-      const response = await api.put('http://localhost:5000/api/user/changePassword', payload)
+      const response = await api.put(`${process.env.BASE_URL}user/changePassword`, payload)
       console.log(response.status)
       if (response.status === 200) {
         toast.success(response.data || 'Password Changed Successfully!', {

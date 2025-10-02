@@ -20,7 +20,7 @@ const Index = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   useEffect(() => {
-    api.get(`http://localhost:5000/api/users/getAll?type=admin&page=${currentPage}&limit=${limit}`).then((res) => {
+    api.get(`${process.env.BASE_URL}users/getAll?type=admin&page=${currentPage}&limit=${limit}`).then((res) => {
       setUsers(res.data);
       setLoading(false);
     }).catch((err) => {

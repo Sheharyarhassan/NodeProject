@@ -4,6 +4,6 @@
   "scripts": {
     "install": "cd Server && npm install && cd ../Client/dashboard && npm install",
     "build": "cd Client/dashboard && npm run build",
-    "start": "cd Server && node app.js"
+    "start": "node Server/app.js"
   }
 }

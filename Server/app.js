@@ -45,12 +45,6 @@ app.use('/api', genreRoutes);
 app.use('/api', cartRoutes);
 
 
-const reactBuildPath = path.join(__dirname, "../Client/dashboard/build");
-app.use(express.static(reactBuildPath));
-
-app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(reactBuildPath, "index.html"));
-});
 app.get("/debug-files", (req, res) => {
   const fs = require("fs");
   const path = require("path");
@@ -66,6 +60,14 @@ app.use((err, req, res, next) => {
 
 // Initialize Swagger
 swaggerDocs(app);
+
+
+const reactBuildPath = path.join(__dirname, "../Client/dashboard/build");
+app.use(express.static(reactBuildPath));
+
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(reactBuildPath, "index.html"));
+});
 const port = process.env.PORT || 8080
 app.listen(port, () => {
   console.log(`Listening on Port ${port}`)

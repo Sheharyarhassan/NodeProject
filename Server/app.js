@@ -45,10 +45,11 @@ app.use('/api', genreRoutes);
 app.use('/api', cartRoutes);
 
 
-app.use(express.static(path.join(__dirname, "../Client/dashboard/build")));
+const reactBuildPath = path.join(__dirname, "../Client/dashboard/build");
+app.use(express.static(reactBuildPath));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Client/dashboard/build", "index.html"));
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(reactBuildPath, "index.html"));
 });
 
 app.use((err, req, res, next) => {

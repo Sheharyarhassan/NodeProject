@@ -51,7 +51,14 @@ app.use(express.static(reactBuildPath));
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(reactBuildPath, "index.html"));
 });
-
+app.get("/debug-files", (req, res) => {
+  const fs = require("fs");
+  const path = require("path");
+  fs.readdir(path.join(__dirname, "../Client/dashboard/build"), (err, files) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(files);
+  });
+});
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({message: err.message});

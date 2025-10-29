@@ -55,6 +55,7 @@ const Cart = () => {
         toast.success(response?.data?.message || 'Order Confirmed', {
           onClose: () => {
             setLoading(false);
+            window.dispatchEvent(new Event("cartUpdated"));
             navigate('/')
           }
         });

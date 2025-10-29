@@ -28,7 +28,6 @@ function Header() {
   const [user, setUser] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [guestId, setGuestId] = useState(null);
-
   useEffect(() => {
     const id = Cookies.get('guestId');
     setGuestId(id);
@@ -55,16 +54,32 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    if (userDetails?.id) {
-      api.get(`${process.env.REACT_APP_BASE_URL}getCart/${userDetails.id}`).then((res) => {
-        setCart(res.data);
-      });
-    } else if (guestId && guestId) {
-      api.get(`${process.env.REACT_APP_BASE_URL}getCart/${guestId}`).then((res) => {
-        setCart(res.data);
-      });
-    }
-  }, [userDetails]);
+    const fetchCart = async () => {
+      try {
+        if (userDetails?.id) {
+          const res = await api.get(`${process.env.REACT_APP_BASE_URL}getCart/${userDetails.id}`);
+          setCart(res.data);
+        } else if (guestId) {
+          const res = await api.get(`${process.env.REACT_APP_BASE_URL}getCart/${guestId}`);
+          setCart(res.data);
+        }
+      } catch (err) {
+        console.error("Error fetching cart:", err);
+      }
+    };
+
+    fetchCart(); // run once on mount
+
+    const handleCartUpdate = () => {
+      fetchCart(); // re-run whenever event is fired
+    };
+
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
+  }, [userDetails, guestId]);
 
   const handleMenuOpen = (menuName, event) => {
     setMenuAnchor((prev) => ({...prev, [menuName]: event.currentTarget}));

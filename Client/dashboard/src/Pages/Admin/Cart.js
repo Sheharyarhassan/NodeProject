@@ -16,12 +16,14 @@ import {
 } from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear'
 import {toast, ToastContainer} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [guestId, setGuestId] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     const id = Cookies.get('guestId');
     setGuestId(id);
@@ -45,6 +47,23 @@ const Cart = () => {
   useEffect(() => {
     getCartData()
   }, [userDetails])
+  const handleCheckout = async () => {
+    setLoading(true)
+    try {
+      const response = await api.get(`${process.env.REACT_APP_BASE_URL}checkout`)
+      if (response?.status === 200) {
+        toast.success(response?.data?.message || 'Order Confirmed', {
+          onClose: () => {
+            setLoading(false);
+            navigate('/')
+          }
+        });
+      }
+    } catch (e) {
+      setLoading(false);
+      toast.error(e)
+    }
+  }
   const handleRemoveItem = async (id) => {
     setLoading(true);
     try {
@@ -81,8 +100,9 @@ const Cart = () => {
       <ToastContainer autoClose={2000}/>
       <Container fixed sx={{padding: '3rem'}}>
         <Box>
-          {data && data?.cart?.item?.length === 0 ? (
-              <Typography component={'h1'} variant={'h5'} sx={{textAlign: 'center'}}>No data in Cart</Typography>
+          {data && !data?.cart || data?.cart?.items?.length <= 0 ? (
+              <Typography component={'h1'} variant={'h5'} sx={{textAlign: 'center'}}>No data in
+                Cart</Typography>
             )
             :
             data?.cart?.item?.map((item, index) => (
@@ -96,10 +116,12 @@ const Cart = () => {
                       <Grid size={{lg: 6, sm: 6}}>
                         <Typography component="h1" variant="h6"
                                     sx={{paddingBottom: '1rem'}}>{item?.book?.title}</Typography>
-                        <Typography component={'span'} variant='body2' sx={{paddingBottom: '1rem'}}>Quantity in
+                        <Typography component={'span'} variant='body2' sx={{paddingBottom: '1rem'}}>Quantity
+                          in
                           Cart: {item?.quantity}</Typography>
                         <Box sx={{paddingTop: '1rem'}}>
-                          <TextField label={'Quantity'} variant={'outlined'} type={'number'} value={item?.quantity}/>
+                          <TextField label={'Quantity'} variant={'outlined'} type={'number'}
+                                     value={item?.quantity}/>
                         </Box>
                       </Grid>
                       <Grid textAlign='end' size={{xs: 3}}>
@@ -113,8 +135,8 @@ const Cart = () => {
               )
             )}
         </Box>
-        <Button sx={{m: 2}} variant='contained'>Check
-          Out</Button>
+        <Button sx={{m: 2}} disabled={data?.cart?.items?.length <= 0} onClick={handleCheckout} variant='contained'>
+          Check Out</Button>
       </Container>
     </div>
   );

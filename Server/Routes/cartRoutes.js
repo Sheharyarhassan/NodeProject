@@ -1,5 +1,5 @@
 const express = require('express');
-const {getCart, AddToCartGuest, AddToCartUser, removeItem} = require("../controller/cartController");
+const {getCart, AddToCartGuest, AddToCartUser, removeItem, checkOut} = require("../controller/cartController");
 const {authMiddleware} = require("../middleware/authMiddleware");
 const router = express.Router();
 
@@ -85,6 +85,19 @@ router.post("/addToCart", AddToCartGuest);
  *         description: Cart retrieved successfully
  */
 router.get("/getCart/:userId?", getCart);
+/**
+ * @swagger
+ * /checkout:
+ *   get:
+ *     summary: CheckOut (Private)
+ *     tags: [Cart]
+ *     security:
+ *       - BearerAuth: []  # This route requires authentication
+ *     responses:
+ *       200:
+ *         description: Checkout successfully
+ */
+router.get("/checkout", authMiddleware, checkOut);
 
 /**
  * @swagger

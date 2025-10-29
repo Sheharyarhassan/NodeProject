@@ -1,4 +1,5 @@
 const {Cart} = require('../models/cartModels');
+const {Book} = require("../models/booksModels");
 
 const AddToCartGuest = async (req, res) => {
   const guestId = req.cookies.guestId;
@@ -79,5 +80,29 @@ const removeItem = async (req, res) => {
     res.status(500).json({message: "Error fetching cart", error: err.message});
   }
 };
+const checkOut = async (req, res) => {
+  const {userId} = req.user;
+  try {
+    const cart = await Cart.findOne({userId: userId})
+    if (!cart) {
+      return res.status(404).json({message: 'Cart not found'});
+    }
+    for (const cartItem of cart.item) {
+      const updatedBook = await Book.findOneAndUpdate(
+        {_id: cartItem.book, quantity: {$gt: 0}},
+        {$inc: {quantity: -cartItem.quantity}},
+        {new: true}
+      );
 
-module.exports = {AddToCartGuest, AddToCartUser, getCart, removeItem}
+      if (!updatedBook) {
+        return res.status(400).json({
+          message: `Book ${cartItem.book} not found or out of stock`,
+        });
+      }
+    }
+    res.status(200).json({message: 'Your order is Confirmed'});
+  } catch (err) {
+    res.status(500).json({message: err})
+  }
+}
+module.exports = {AddToCartGuest, AddToCartUser, getCart, removeItem, checkOut}
